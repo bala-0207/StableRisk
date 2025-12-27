@@ -203,6 +203,8 @@ As the stablecoin market expands from 50+ issuers today toward hundreds globally
 
 ---
 
+📁 **For More Information:** [View Project Documentation](https://drive.google.com/drive/folders/1SQX67fkzU9bGo4fQ8dImnYIEdUVFlSI4?usp=sharing)
+
 ## Project Repository
 
 🔗 **Code Repository:** [Link to be added]
