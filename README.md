@@ -1,6 +1,6 @@
 <!-- # StableRisk AI
 
-**Deterministic ACTUS Simulations with AI-Powered Risk Factor Prediction for Proactive Stablecoin Liquidity Risk Management**
+**Deterministic ACTUS Simulations with Risk Factor Prediction for Proactive Stablecoin Liquidity Risk Management**
 
 ---
 
