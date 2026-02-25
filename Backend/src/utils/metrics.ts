@@ -32,18 +32,18 @@ export function processStableCoinData(
     periodsCount = 12;
   }
 
-  // Aggregate cash flows across all contracts
+  // Aggregate cash flows across all contracts.
+  // inflow / outflow layout: inflow[period][contractIndex]
+  // (outer = periods, inner = per-contract values within that period)
+  // This matches the reference ACTUSOptimMerkleAPIResponse definition.
   const aggregatedInflows = new Array(periodsCount).fill(0);
   const aggregatedOutflows = new Array(periodsCount).fill(0);
 
-  for (let i = 0; i < actusResponse.inflow.length && i < contracts.length; i++) {
-    const contractInflows = actusResponse.inflow[i] || [];
-    const contractOutflows = actusResponse.outflow[i] || [];
-
-    for (let period = 0; period < periodsCount; period++) {
-      aggregatedInflows[period] += contractInflows[period] || 0;
-      aggregatedOutflows[period] += contractOutflows[period] || 0;
-    }
+  for (let period = 0; period < periodsCount; period++) {
+    const periodInflows = actusResponse.inflow[period] || [];
+    const periodOutflows = actusResponse.outflow[period] || [];
+    aggregatedInflows[period] = periodInflows.reduce((sum: number, v: number) => sum + v, 0);
+    aggregatedOutflows[period] = periodOutflows.reduce((sum: number, v: number) => sum + v, 0);
   }
 
   // Calculate total liabilities (outstanding tokens)
@@ -81,6 +81,7 @@ export function processStableCoinData(
 
 /**
  * Categorize reserves into cash, treasury, corporate, and other
+ * Based on contractID patterns from the portfolio
  */
 function categorizeReserves(
   contracts: ACTUSContract[],
@@ -97,33 +98,39 @@ function categorizeReserves(
     if (contract.contractRole !== 'RPA') return;
 
     const principal = Math.abs(parseFloat(contract.notionalPrincipal));
-    const reserveType = contract.reserveType || 'other';
+    const contractID = (contract.contractID || '').toLowerCase();
 
-    // Categorize based on reserve type
+    // Categorize based on contractID patterns
+    // cash01, cash02 -> Cash & Equivalents
+    // treasury01 -> US Treasury Securities
+    // corp01, corporate01 -> Corporate Bonds
+    // everything else -> Other Assets
     for (let period = 0; period < periodsCount; period++) {
-      switch (reserveType) {
-        case 'cash':
-          cashReserves[period] += principal;
-          break;
-        case 'treasury':
-          treasuryReserves[period] += principal;
-          break;
-        case 'corporate':
-          corporateReserves[period] += principal;
-          break;
-        default:
-          otherReserves[period] += principal;
+      if (contractID.includes('cash')) {
+        cashReserves[period] += principal;
+      } else if (contractID.includes('treasury') || contractID.includes('tbill')) {
+        treasuryReserves[period] += principal;
+      } else if (contractID.includes('corp') || contractID.includes('bond')) {
+        corporateReserves[period] += principal;
+      } else {
+        otherReserves[period] += principal;
       }
       totalReserves[period] += principal;
     }
   });
 
   if (periodsCount > 0) {
-    console.log(`   Cash Reserves: ${cashReserves[0].toFixed(2)}`);
-    console.log(`   Treasury Reserves: ${treasuryReserves[0].toFixed(2)}`);
-    console.log(`   Corporate Reserves: ${corporateReserves[0].toFixed(2)}`);
-    console.log(`   Other Reserves: ${otherReserves[0].toFixed(2)}`);
-    console.log(`   Total Reserves: ${totalReserves[0].toFixed(2)}`);
+    const total = totalReserves[0];
+    const cashPct = total > 0 ? (cashReserves[0] / total * 100).toFixed(1) : '0.0';
+    const treasuryPct = total > 0 ? (treasuryReserves[0] / total * 100).toFixed(1) : '0.0';
+    const corpPct = total > 0 ? (corporateReserves[0] / total * 100).toFixed(1) : '0.0';
+    const otherPct = total > 0 ? (otherReserves[0] / total * 100).toFixed(1) : '0.0';
+
+    console.log(`   Cash & Equivalents: ${cashReserves[0].toFixed(0)} (${cashPct}%)`);
+    console.log(`   US Treasury Securities: ${treasuryReserves[0].toFixed(0)} (${treasuryPct}%)`);
+    console.log(`   Corporate Bonds: ${corporateReserves[0].toFixed(0)} (${corpPct}%)`);
+    console.log(`   Other Assets: ${otherReserves[0].toFixed(0)} (${otherPct}%)`);
+    console.log(`   Total Reserve Assets: ${total.toFixed(0)}`);
   } else {
     console.log(`   ⚠️  No periods returned from ACTUS - using static principal values`);
   }
@@ -139,59 +146,71 @@ function categorizeReserves(
 
 /**
  * Calculate quality metrics from contract attributes
+ * Uses professional-grade quality scores based on asset categorization
+ * Logic from RiskLiquidityStableCoinOptimMerkleUtils.ts
  */
 function calculateQualityMetrics(contracts: ACTUSContract[]): QualityMetrics {
   const assetContracts = contracts.filter(c => c.contractRole === 'RPA');
 
-  // Aggregate by reserve type
+  // Professional-grade quality metrics for institutional stablecoin reserves
+  // [Cash, Treasury, Corporate, Other]
+  const standardLiquidityScores = [100, 98, 75, 60];  // Cash, Treasury Bills, Corporate Bonds, Other
+  const standardCreditRatings = [100, 100, 85, 70];   // Risk-free (Cash), Risk-free (UST), Investment Grade, Lower Grade
+  const standardMaturityProfiles = [0, 60, 180, 365]; // Overnight, 60-day avg, 6-month avg, 1-year avg
+
+  // Categorize contracts and calculate total amounts by category
   const categories = {
-    cash: { total: 0, liquiditySum: 0, creditSum: 0, maturitySum: 0, count: 0 },
-    treasury: { total: 0, liquiditySum: 0, creditSum: 0, maturitySum: 0, count: 0 },
-    corporate: { total: 0, liquiditySum: 0, creditSum: 0, maturitySum: 0, count: 0 },
-    other: { total: 0, liquiditySum: 0, creditSum: 0, maturitySum: 0, count: 0 }
+    cash: 0,
+    treasury: 0,
+    corporate: 0,
+    other: 0
   };
+
+  let totalAssets = 0;
 
   assetContracts.forEach(contract => {
     const principal = Math.abs(parseFloat(contract.notionalPrincipal));
-    const reserveType = (contract.reserveType || 'other') as keyof typeof categories;
-    const category = categories[reserveType];
+    const contractID = (contract.contractID || '').toLowerCase();
+    
+    totalAssets += principal;
 
-    category.total += principal;
-    category.liquiditySum += (contract.liquidityScore || 50) * principal;
-    category.creditSum += (contract.creditRating || 50) * principal;
-    category.maturitySum += (contract.maturityDays || 365) * principal;
-    category.count++;
-  });
-
-  // Calculate weighted averages for each category
-  const liquidityScores: number[] = [];
-  const creditRatings: number[] = [];
-  const maturityProfiles: number[] = [];
-
-  ['cash', 'treasury', 'corporate', 'other'].forEach(type => {
-    const category = categories[type as keyof typeof categories];
-    if (category.total > 0) {
-      liquidityScores.push(category.liquiditySum / category.total);
-      creditRatings.push(category.creditSum / category.total);
-      maturityProfiles.push(category.maturitySum / category.total);
+    // Categorize based on contractID patterns (same logic as categorizeReserves)
+    if (contractID.includes('cash')) {
+      categories.cash += principal;
+    } else if (contractID.includes('treasury') || contractID.includes('tbill')) {
+      categories.treasury += principal;
+    } else if (contractID.includes('corp') || contractID.includes('bond')) {
+      categories.corporate += principal;
     } else {
-      liquidityScores.push(0);
-      creditRatings.push(0);
-      maturityProfiles.push(0);
+      categories.other += principal;
     }
   });
 
-  // Calculate overall asset quality score
-  const weights = [0.4, 0.3, 0.2, 0.1]; // Weight: liquidity > credit > maturity
-  const assetQualityScore = liquidityScores.reduce((sum, score, i) => 
-    sum + score * weights[i], 0
-  );
+  // Calculate weighted asset quality score based on actual reserve composition
+  const categoryAmounts = [categories.cash, categories.treasury, categories.corporate, categories.other];
+  
+  let weightedLiquidityScore = 0;
+  let weightedCreditScore = 0;
+  let weightedMaturityScore = 0;
+
+  if (totalAssets > 0) {
+    for (let i = 0; i < 4; i++) {
+      const weight = categoryAmounts[i] / totalAssets;
+      weightedLiquidityScore += standardLiquidityScores[i] * weight;
+      weightedCreditScore += standardCreditRatings[i] * weight;
+      weightedMaturityScore += standardMaturityProfiles[i] * weight;
+    }
+  }
+
+  // Asset quality score is primarily based on liquidity and credit quality
+  // For L1 HQLA assets (100% cash + treasury), this should approach 100
+  const assetQualityScore = (weightedLiquidityScore * 0.6) + (weightedCreditScore * 0.4);
 
   return {
-    liquidityScores,
-    creditRatings,
-    maturityProfiles,
-    assetQualityScore
+    liquidityScores: standardLiquidityScores,
+    creditRatings: standardCreditRatings,
+    maturityProfiles: standardMaturityProfiles,
+    assetQualityScore: Math.round(assetQualityScore)
   };
 }
 
@@ -219,10 +238,12 @@ export function calculateRiskMetrics(data: StableCoinRiskData): RiskMetrics {
       : 0;
     backingRatios.push(backingRatio);
 
-    // 2. Liquidity Ratio = (Highly Liquid Assets / Outstanding Tokens) * 100
+    // 2. Liquidity Ratio = (Highly Liquid Assets / Total Reserves) * 100
+    // Per reference: calculateStableCoinRiskMetrics in RiskLiquidityStableCoinOptimMerkleUtils.ts
+    //   "const liquidityRatio = totalReserves > 0 ? (liquidReserves / totalReserves) * 100 : 0"
     const highlyLiquidAssets = cashReserves + treasuryReserves;
-    const liquidityRatio = outstandingTokens > 0 
-      ? (highlyLiquidAssets / outstandingTokens) * 100 
+    const liquidityRatio = totalReserves > 0
+      ? (highlyLiquidAssets / totalReserves) * 100
       : 0;
     liquidityRatios.push(liquidityRatio);
 

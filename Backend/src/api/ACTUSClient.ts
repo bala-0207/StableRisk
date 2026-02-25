@@ -1,10 +1,14 @@
 /**
  * ACTUS Server Client
  * Handles communication with ACTUS server for cash flow data
+ *
+ * Uses standardized post-processing logic from ACTUSDataProcessor.ts
+ * This ensures consistency across all ACTUS integrations
  */
 
 import axios from 'axios';
 import type { ACTUSContract, ACTUSRequestData, ACTUSResponse } from '../types/index.js';
+import { processRawACTUSData, printCoreACTUSResponse } from '../utils/ACTUSDataProcessor.js';
 
 export class ACTUSClient {
   private baseUrl: string;
@@ -13,85 +17,19 @@ export class ACTUSClient {
     this.baseUrl = baseUrl;
   }
 
-  /**
-   * Parse ACTUS events into period-based cash flows
-   */
-  private parseACTUSEvents(actusResults: any[], contracts: ACTUSContract[]): ACTUSResponse {
-    const periods = 12; // Default to 12 months
-    const inflows: number[][] = [];
-    const outflows: number[][] = [];
-
-    // Initialize arrays for each contract
-    for (let i = 0; i < contracts.length; i++) {
-      inflows[i] = new Array(periods).fill(0);
-      outflows[i] = new Array(periods).fill(0);
-    }
-
-    // Process each contract's events
-    actusResults.forEach((result: any, contractIndex: number) => {
-      if (!result.events || result.status !== 'Success') return;
-
-      const contract = contracts[contractIndex];
-      const isAsset = contract.contractRole === 'RPA';
-
-      result.events.forEach((event: any) => {
-        // Parse event time to determine period
-        const eventDate = new Date(event.time);
-        const startDate = new Date(contract.statusDate || contract.contractDealDate);
-        const monthsDiff = this.getMonthsDifference(startDate, eventDate);
-        
-        if (monthsDiff >= 0 && monthsDiff < periods) {
-          const payoff = parseFloat(event.payoff || 0);
-          
-          // For assets (RPA): positive payoff = inflow, negative = outflow
-          // For liabilities (RPL): positive payoff = outflow, negative = inflow
-          if (isAsset) {
-            if (payoff > 0) {
-              inflows[contractIndex][monthsDiff] += payoff;
-            } else {
-              outflows[contractIndex][monthsDiff] += Math.abs(payoff);
-            }
-          } else {
-            if (payoff > 0) {
-              outflows[contractIndex][monthsDiff] += payoff;
-            } else {
-              inflows[contractIndex][monthsDiff] += Math.abs(payoff);
-            }
-          }
-        }
-      });
-    });
-
-    return {
-      inflow: inflows,
-      outflow: outflows,
-      periodsCount: periods,
-      contractDetails: actusResults,
-      riskMetrics: {},
-      metadata: {
-        timeHorizon: 'monthly',
-        currency: 'USD',
-        processingDate: new Date().toISOString()
-      }
-    };
-  }
+  // =================================== Main Entry Point ===================================
 
   /**
-   * Calculate months difference between two dates
-   */
-  private getMonthsDifference(start: Date, end: Date): number {
-    const yearsDiff = end.getFullYear() - start.getFullYear();
-    const monthsDiff = end.getMonth() - start.getMonth();
-    return yearsDiff * 12 + monthsDiff;
-  }
-
-  /**
-   * Call ACTUS API with contract portfolio
+   * Call ACTUS API with contract portfolio and post-processing.
+   *
+   * Handles two response formats returned by ACTUS /eventsBatch:
+   *   1. Structured format  – { inflow, outflow, monthsCount, ... }
+   *   2. Raw events format  – [ { contractId, events:[{time, payoff}] } ]
+   *
+   * Post-processing mirrors EXACTLY:
+   *   ACTUSDataProcessor.callACTUSAPIWithPostProcessing()
    */
   async fetchCashFlowData(contracts: ACTUSContract[]): Promise<ACTUSResponse> {
-    console.log(`🌐 Calling ACTUS server: ${this.baseUrl}`);
-    console.log(`📋 Processing ${contracts.length} contracts`);
-
     // Clean contracts before sending (remove non-ACTUS fields)
     const cleanedContracts = contracts.map(contract => {
       const { reserveType, liquidityScore, creditRating, maturityDays, ...cleanContract } = contract;
@@ -103,38 +41,69 @@ export class ACTUSClient {
       riskFactors: []
     };
 
-    // Log first contract for debugging
-    if (cleanedContracts.length > 0) {
-      console.log('📤 Sample contract sent to ACTUS:');
-      console.log(JSON.stringify(cleanedContracts[0], null, 2));
-    }
+    console.log('\n=== CALLING ACTUS API WITH POST-PROCESSING ===');
+    console.log(`URL: ${this.baseUrl}`);
+    console.log(`Sending ${cleanedContracts.length} contracts`);
+    console.log('Contract IDs:', cleanedContracts.map(c => c.contractID));
 
     try {
       const response = await axios.post(this.baseUrl, requestData, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        timeout: 30000 // 30 second timeout
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 30000
       });
 
-      const jsonData = response.data;
+      // Print core ACTUS response for debugging (using standardized function)
+      printCoreACTUSResponse(response, this.baseUrl);
 
-      // Log full ACTUS response for debugging
-      console.log('📥 ACTUS Response:', JSON.stringify(jsonData, null, 2).substring(0, 1000));
+      const rawData = response.data;
 
-      // Parse ACTUS events format into period-based cash flows
-      const actusResponse = this.parseACTUSEvents(jsonData, contracts);
+      // ----------------------------------------------------------------
+      // Path 1: Response already has structured inflow/outflow/monthsCount
+      // (EXACT check from ACTUSDataProcessor.ts line 283)
+      // ----------------------------------------------------------------
+      if (rawData && Array.isArray(rawData.inflow) && rawData.monthsCount > 0) {
+        console.log('✅ Response already in expected format with proper periods');
+        return {
+          inflow: rawData.inflow,
+          outflow: rawData.outflow,
+          periodsCount: rawData.monthsCount,
+          contractDetails: rawData.contractDetails || [],
+          riskMetrics: rawData.riskMetrics || {},
+          metadata: {
+            timeHorizon: 'monthly',
+            currency: 'USD',
+            processingDate: new Date().toISOString()
+          }
+        };
+      }
 
-      console.log(`✅ ACTUS data retrieved successfully`);
-      console.log(`   Periods: ${actusResponse.periodsCount}`);
-      console.log(`   Inflow arrays: ${actusResponse.inflow.length}`);
-      console.log(`   Outflow arrays: ${actusResponse.outflow.length}`);
+      // ----------------------------------------------------------------
+      // Path 2: Raw events array from /eventsBatch
+      // Transform and apply post-processing
+      // (Uses standardized ACTUSDataProcessor logic)
+      // ----------------------------------------------------------------
+      console.log('⚠️ Response is raw contract events - applying post-processing...');
+
+      // Transform the API response to match the format expected by processRawACTUSData
+      const transformedData = rawData.map((contractResponse: any) => ({
+        id: contractResponse.contractId || contractResponse.contractID,
+        contractId: contractResponse.contractId || contractResponse.contractID,
+        type: 'unknown',
+        events: contractResponse.events || []
+      }));
+
+      // Apply standardized post-processing logic from ACTUSDataProcessor
+      const processedData = processRawACTUSData(transformedData);
+      const actusResponse = this.convertToACTUSResponse(processedData);
+
+      console.log(`✅ Post-processing complete: ${actusResponse.periodsCount} periods generated`);
+      console.log('=== END ACTUS API CALL WITH POST-PROCESSING ===\n');
 
       return actusResponse;
 
     } catch (error: any) {
       console.error('❌ ACTUS API call failed:', error.message);
-      
+
       if (error.response) {
         console.error(`   Status: ${error.response.status}`);
         console.error(`   Data:`, error.response.data);
@@ -142,10 +111,45 @@ export class ACTUSClient {
         console.error('   No response received from server');
         console.error('   Please ensure ACTUS server is running');
       }
-      
+
       throw new Error(`ACTUS API call failed: ${error.message}`);
     }
   }
+
+  // =================================== Format Conversion ===================================
+
+  /**
+   * Convert processed ACTUS data to ACTUSResponse format
+   * (Uses the standardized return type from ACTUSDataProcessor)
+   */
+  private convertToACTUSResponse(
+    processedData: ReturnType<typeof processRawACTUSData>
+  ): ACTUSResponse {
+    const { inflow, outflow, monthsCount, contractDetails } = processedData;
+
+    // Aggregate cash flows for consistency
+    const aggregatedInflows = inflow.map(period => period.reduce((sum, val) => sum + val, 0));
+    const aggregatedOutflows = outflow.map(period => period.reduce((sum, val) => sum + val, 0));
+
+    return {
+      inflow: inflow,
+      outflow: outflow,
+      periodsCount: monthsCount,
+      contractDetails: contractDetails,
+      riskMetrics: {
+        totalPeriods: monthsCount,
+        aggregatedInflows,
+        aggregatedOutflows
+      },
+      metadata: {
+        timeHorizon: 'monthly',
+        currency: 'USD',
+        processingDate: new Date().toISOString()
+      }
+    };
+  }
+
+  // =================================== Portfolio Loading ===================================
 
   /**
    * Load portfolio from JSON file
@@ -154,9 +158,9 @@ export class ACTUSClient {
     try {
       const fs = await import('fs');
       const path = await import('path');
-      
+
       const fullPath = path.resolve(portfolioPath);
-      
+
       if (!fs.existsSync(fullPath)) {
         throw new Error(`Portfolio file not found: ${fullPath}`);
       }
@@ -170,9 +174,9 @@ export class ACTUSClient {
 
       console.log(`📁 Loaded portfolio from: ${portfolioPath}`);
       if (portfolioConfig.portfolioMetadata) {
-        console.log(`   Portfolio ID: ${portfolioConfig.portfolioMetadata.portfolioId}`);
-        console.log(`   Total Notional: ${portfolioConfig.portfolioMetadata.totalNotional}`);
-        console.log(`   Currency: ${portfolioConfig.portfolioMetadata.currency}`);
+        console.log(`   Portfolio ID   : ${portfolioConfig.portfolioMetadata.portfolioId}`);
+        console.log(`   Total Notional : ${portfolioConfig.portfolioMetadata.totalNotional}`);
+        console.log(`   Currency       : ${portfolioConfig.portfolioMetadata.currency}`);
       }
       console.log(`   Contracts: ${portfolioConfig.contracts.length}`);
 

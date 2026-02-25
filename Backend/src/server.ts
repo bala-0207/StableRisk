@@ -19,21 +19,52 @@ app.use(express.json({ limit: '10mb' }));
 // Health check endpoint
 app.get('/api/health', async (_req, res) => {
   try {
-    // Check ACTUS connectivity
+    // Check ACTUS connectivity with a proper POST request
     let actusConnected = false;
+    let actusError = '';
     try {
       const axios = await import('axios');
-      await axios.default.get(DEFAULT_ACTUS_URL.replace('/eventsBatch', ''), { timeout: 3000 });
-      actusConnected = true;
-    } catch {
+      // Test with a minimal valid ACTUS request
+      const testPayload = {
+        contracts: [
+          {
+            contractType: "PAM",
+            contractID: "test_health_check",
+            contractRole: "RPA",
+            contractDealDate: "2024-01-01T00:00:00",
+            initialExchangeDate: "2024-01-01T00:00:00",
+            statusDate: "2024-01-01T00:00:00",
+            notionalPrincipal: 1000,
+            maturityDate: "2024-01-02T00:00:00",
+            nominalInterestRate: 0.0,
+            currency: "USD",
+            dayCountConvention: "A365"
+          }
+        ],
+        riskFactors: []
+      };
+      
+      const response = await axios.default.post(DEFAULT_ACTUS_URL, testPayload, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 5000
+      });
+      
+      // Check if we got a valid response
+      if (response.status === 200 && response.data) {
+        actusConnected = true;
+      }
+    } catch (error: any) {
       actusConnected = false;
+      actusError = error.message;
+      console.error('ACTUS health check failed:', error.message);
     }
 
     return res.json({
       status: 'healthy',
       timestamp: new Date().toISOString(),
       actusConnected,
-      actusUrl: DEFAULT_ACTUS_URL
+      actusUrl: DEFAULT_ACTUS_URL,
+      ...(actusError && { actusError })
     });
   } catch (error: any) {
     return res.status(500).json({
