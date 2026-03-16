@@ -6,9 +6,12 @@ import type {
   HealthStatus,
   Portfolio,
   Jurisdiction,
+  StimulationListItem,
+  StimulationResult,
+  EnvironmentInfo,
 } from "./types"
 
-const API_BASE = "http://localhost:4000/api"
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:4000/api"
 const DEFAULT_ACTUS_URL = "http://34.203.247.32:8083/eventsBatch"
 
 async function fetchApi<T>(
@@ -95,7 +98,155 @@ export async function testActusConnection(url: string): Promise<boolean> {
   }
 }
 
+// ---- Stimulation API ----
+
+export function getActusEnvironment(): string {
+  return process.env.NEXT_PUBLIC_ACTUS_ENVIRONMENT || "localhost"
+}
+
+export async function getEnvironments(): Promise<EnvironmentInfo[]> {
+  return fetchApi<EnvironmentInfo[]>("/environments")
+}
+
+export async function getStimulations(): Promise<StimulationListItem[]> {
+  return fetchApi<StimulationListItem[]>("/stimulations")
+}
+
+export async function runStimulation(
+  stimulationId: string,
+  environment?: string
+): Promise<StimulationResult> {
+  const env = environment || getActusEnvironment()
+  return fetchApi<StimulationResult>("/stimulation/run", {
+    method: "POST",
+    body: JSON.stringify({ stimulationId, environment: env }),
+  })
+}
+
+export async function runStimulationFromJson(
+  collectionJson: any,
+  environment?: string
+): Promise<StimulationResult> {
+  const env = environment || getActusEnvironment()
+  return fetchApi<StimulationResult>("/stimulation/run", {
+    method: "POST",
+    body: JSON.stringify({
+      collectionJson,
+      environment: env,
+    }),
+  })
+}
+
+export async function checkRiskServiceHealth(
+  environment?: string
+): Promise<any> {
+  const env = environment || getActusEnvironment()
+  return fetchApi(`/health/risk-service?environment=${env}`)
+}
+
+// ---- Config-Based Simulation API ----
+
+export interface ConfigSimulationRequest {
+  configData: {
+    config_metadata: {
+      config_id: string
+      collection_file: string
+    }
+    jurisdiction: {
+      source: "file" | "inline"
+      file?: string
+      inline?: any
+    }
+    market_scenario?: {
+      source: "file" | "inline"
+      file?: string
+      inline?: any
+    }
+    compliance_scenario?: {
+      source: "file" | "inline"
+      file?: string
+      inline?: any
+    }
+    simulation_timeframe: {
+      start_date: string
+      end_date: string
+      frequency: "daily" | "weekly" | "monthly"
+    }
+  }
+}
+
+export interface ConfigSimulationResponse {
+  success: boolean
+  message?: string
+  config?: {
+    id: string
+    collection_file: string
+    jurisdiction: string
+    monitoring_times_count: number
+  }
+  collection?: {
+    name: string
+    operations_count: number
+  }
+  note?: string
+  error?: string
+}
+
+export async function runConfigSimulation(
+  request: ConfigSimulationRequest
+): Promise<ConfigSimulationResponse> {
+  return fetchApi<ConfigSimulationResponse>("/simulate", {
+    method: "POST",
+    body: JSON.stringify(request),
+  })
+}
+
+// ---- Stablecoin Config Simulation API ----
+
+export interface IssuerThresholds {
+  backingThreshold: number
+  liquidityThreshold: number
+  wamMaxDays: number
+  bankStressThreshold: number
+  baseQuality: number
+  qualityFloor: number
+  sovereignMaxDegradation: number
+  maxSingleAssetShare: number
+  hhiWarningThreshold: number
+}
+
+export interface HolderPortfolio {
+  initialUsd: number
+  targetUsdc: number
+  deployPct: number
+}
+
+export interface HolderThresholdSet {
+  br: number
+  lq: number
+  peg: number
+  mr: number
+  hqla: number
+  cc: number
+}
+
+export async function runStablecoinSimulation(params: {
+  entityType: 'issuer' | 'holder'
+  environment?: string
+  issuerThresholds?: IssuerThresholds
+  holderPortfolio?: HolderPortfolio
+  holderGood?: HolderThresholdSet
+  holderBad?: HolderThresholdSet
+}): Promise<StimulationResult & { entityType: string; appliedThresholds: any }> {
+  const env = params.environment || getActusEnvironment()
+  return fetchApi('/stablecoin-simulate', {
+    method: 'POST',
+    body: JSON.stringify({ ...params, environment: env }),
+  })
+}
+
 // SWR fetchers
 export const scenariosFetcher = () => getScenarios()
 export const portfoliosFetcher = () => getPortfolios()
 export const healthFetcher = () => checkHealth()
+export const stimulationsFetcher = () => getStimulations()

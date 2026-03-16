@@ -22,11 +22,6 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { ResultsPanel } from "./results-panel"
 import type { Scenario, VerifyResponse } from "@/lib/types"
-import {
-  demoScenarios,
-  demoVerifyResponse,
-  demoFailedResponse,
-} from "@/lib/sample-data"
 import { getScenarios, verifyPortfolio } from "@/lib/api"
 import { cn } from "@/lib/utils"
 
@@ -58,7 +53,8 @@ const difficultyColor: Record<string, string> = {
 }
 
 export function ModeScenarios() {
-  const [scenarios, setScenarios] = useState<Scenario[]>(demoScenarios)
+  const [scenarios, setScenarios] = useState<Scenario[]>([])
+  const [loadError, setLoadError] = useState<string>("")
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(
     null
   )
@@ -69,8 +65,14 @@ export function ModeScenarios() {
 
   useEffect(() => {
     getScenarios()
-      .then(setScenarios)
-      .catch(() => setScenarios(demoScenarios))
+      .then((data) => {
+        setScenarios(data)
+        setLoadError("")
+      })
+      .catch((err) => {
+        setScenarios([])
+        setLoadError(`Failed to load scenarios: ${err?.message || "Backend unreachable"}. Ensure the server is running on localhost:4000.`)
+      })
   }, [])
 
   const categories = [
@@ -91,19 +93,16 @@ export function ModeScenarios() {
     setSelectedScenario(scenario)
     setIsRunning(true)
     setResult(null)
+    setLoadError("")
     try {
       const res = await verifyPortfolio(
         scenario.portfolio,
         scenario.thresholds
       )
       setResult(res)
-    } catch {
-      const isCompliant = scenario.expectedResult === "COMPLIANT"
-      const demo = isCompliant ? demoVerifyResponse : demoFailedResponse
-      setResult({
-        ...demo,
-        timestamp: new Date().toISOString(),
-      })
+    } catch (err: any) {
+      setResult(null)
+      setLoadError(`Verification failed: ${err?.message || "Unknown error"}. Ensure the backend and ACTUS server are running.`)
     } finally {
       setIsRunning(false)
     }
@@ -155,6 +154,16 @@ export function ModeScenarios() {
             ))}
           </div>
         </div>
+
+        {/* Error Display */}
+        {loadError && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+            <div className="flex items-start gap-2">
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+              <p className="text-sm text-destructive">{loadError}</p>
+            </div>
+          </div>
+        )}
 
         {/* Scenario Cards */}
         <div className="flex flex-col gap-2">

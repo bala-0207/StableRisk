@@ -1,11 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import {
-  Upload,
-  PenLine,
-  MessageSquareText,
   Activity,
   Shield,
   Wifi,
@@ -14,24 +11,46 @@ import {
   Settings,
   Download,
   HelpCircle,
+  Building2,
+  User,
 } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { ModeUpload } from "./mode-upload"
-import { ModeManual } from "./mode-manual"
-import { ModeChat } from "./mode-chat"
+// Commented out — unused tabs
+// import { ModeUpload } from "./mode-upload"
+// import { ModeChat } from "./mode-chat"
+// import { ModeSimulation } from "./mode-simulation"
+// import { ModeDefiLiquidation } from "./mode-defi-liquidation"
+// import { ModeDefiConfig } from "./mode-defi-config"
+// import { BufferDashboardShell } from "./defi-newdashboard1"
+import { ConfigSimulationMode } from "./mode-config"
 import type { DashboardMode, HealthStatus } from "@/lib/types"
 import { checkHealth } from "@/lib/api"
 import { cn } from "@/lib/utils"
 
 const modeDescriptions: Record<DashboardMode, string> = {
-  upload: "Upload contract portfolios for full ACTUS verification analysis",
-  manual: "Manually configure contracts and parameters through form-based UI",
-  chat: "Describe scenarios in natural language for AI-powered analysis",
+  upload:
+    "Upload contract portfolios for full ACTUS verification analysis",
+  chat:
+    "Describe scenarios in natural language for AI-powered analysis",
+  simulation:
+    "Run stablecoin behavioral risk stress simulations via ACTUS risk service",
+  config:
+    "Config-based simulation - test different regulatory frameworks and market scenarios",
+  "defi-config":
+    "DeFi liquidation config simulation — protocol, borrower profile, market stress, cascade risk",
+  "defi-liquidation":
+    "DeFi liquidation risk — HealthFactor, CollateralVelocity & ETH price stress simulations",
+  "buffer-v5":
+    "Buffer-First V5 — ETH collateral defense with BufferLTVModel, configurable sliders, 4-tab ACTUS dashboard",
+  issuer:
+    "Issuer simulation — adjust regulatory thresholds (GENIUS / MiCA / Conservative) and run ACTUS behavioral models",
+  holder:
+    "Holder simulation — configure portfolio & risk thresholds, simulate 45-day USD ↔ USDC allocation strategy",
 }
 
 export function DashboardShell() {
-  const [mode, setMode] = useState<DashboardMode>("upload")
+  const [mode, setMode] = useState<DashboardMode>("issuer")
   const [health, setHealth] = useState<HealthStatus>({
     status: "checking",
     actusConnected: false,
@@ -47,7 +66,7 @@ export function DashboardShell() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      {/* Header */}
+      {/* ── Header ── */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
@@ -125,7 +144,7 @@ export function DashboardShell() {
               </button>
             </div>
 
-            {/* Time */}
+            {/* Live Clock */}
             <div className="hidden items-center gap-1.5 text-xs text-muted-foreground lg:flex">
               <Clock className="h-3.5 w-3.5" />
               <LiveClock />
@@ -134,8 +153,32 @@ export function DashboardShell() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 py-6">
+      {/* ── Main Content ── */}
+      <div className="flex-1 bg-white">
+      <main
+        className="mx-auto w-full max-w-[1440px] px-6 py-6 text-slate-900"
+        style={{
+          '--background': '0 0% 100%',
+          '--foreground': '222 47% 11%',
+          '--card': '0 0% 100%',
+          '--card-foreground': '222 47% 11%',
+          '--popover': '0 0% 100%',
+          '--popover-foreground': '222 47% 11%',
+          '--primary': '160 84% 40%',
+          '--primary-foreground': '0 0% 100%',
+          '--secondary': '210 40% 96%',
+          '--secondary-foreground': '222 47% 11%',
+          '--muted': '210 40% 96%',
+          '--muted-foreground': '215 16% 47%',
+          '--accent': '210 40% 96%',
+          '--accent-foreground': '222 47% 11%',
+          '--destructive': '0 84% 60%',
+          '--destructive-foreground': '210 40% 98%',
+          '--border': '214 32% 91%',
+          '--input': '214 32% 91%',
+          '--ring': '222 47% 11%',
+        } as React.CSSProperties}
+      >
         <Tabs
           value={mode}
           onValueChange={(v) => setMode(v as DashboardMode)}
@@ -143,29 +186,24 @@ export function DashboardShell() {
         >
           <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <TabsList className="bg-secondary">
+              {/* ── Issuer ── */}
               <TabsTrigger
-                value="upload"
+                value="issuer"
                 className="gap-1.5 data-[state=active]:bg-background data-[state=active]:text-foreground"
               >
-                <Upload className="h-4 w-4" />
-                <span className="hidden sm:inline">File Upload</span>
-                <span className="sm:hidden">Upload</span>
+                <Building2 className="h-4 w-4" />
+                <span className="hidden sm:inline">Issuer</span>
+                <span className="sm:hidden">ISS</span>
               </TabsTrigger>
+
+              {/* ── Holder ── */}
               <TabsTrigger
-                value="manual"
+                value="holder"
                 className="gap-1.5 data-[state=active]:bg-background data-[state=active]:text-foreground"
               >
-                <PenLine className="h-4 w-4" />
-                <span className="hidden sm:inline">Manual Input</span>
-                <span className="sm:hidden">Manual</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="chat"
-                className="gap-1.5 data-[state=active]:bg-background data-[state=active]:text-foreground"
-              >
-                <MessageSquareText className="h-4 w-4" />
-                <span className="hidden sm:inline">AI Assistant</span>
-                <span className="sm:hidden">AI Chat</span>
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Holder</span>
+                <span className="sm:hidden">HOL</span>
               </TabsTrigger>
             </TabsList>
 
@@ -174,59 +212,81 @@ export function DashboardShell() {
             </p>
           </div>
 
-          <TabsContent value="upload" className="mt-0">
-            {mode === "upload" && (
+          {/* ── Issuer Tab ── */}
+          <TabsContent value="issuer" className="mt-0">
+            {mode === "issuer" && (
               <motion.div
-                key="upload-content"
+                key="issuer-content"
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 12 }}
                 transition={{ duration: 0.25 }}
               >
-                <ModeUpload />
+                <ConfigSimulationMode entityType="issuer" />
               </motion.div>
             )}
           </TabsContent>
 
-          <TabsContent value="manual" className="mt-0">
-            {mode === "manual" && (
+          {/* ── Holder Tab ── */}
+          <TabsContent value="holder" className="mt-0">
+            {mode === "holder" && (
               <motion.div
-                key="manual-content"
+                key="holder-content"
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 12 }}
                 transition={{ duration: 0.25 }}
               >
-                <ModeManual />
+                <ConfigSimulationMode entityType="holder" />
               </motion.div>
             )}
+          </TabsContent>
+
+          {/* ══════════════════════════════════════════════════════════
+             COMMENTED OUT TABS — kept for future restoration
+             ══════════════════════════════════════════════════════════ */}
+
+          {/*
+          <TabsContent value="upload" className="mt-0">
+            {mode === "upload" && <ModeUpload />}
           </TabsContent>
 
           <TabsContent value="chat" className="mt-0">
-            {mode === "chat" && (
-              <motion.div
-                key="chat-content"
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 12 }}
-                transition={{ duration: 0.25 }}
-              >
-                <ModeChat />
-              </motion.div>
-            )}
+            {mode === "chat" && <ModeChat />}
           </TabsContent>
+
+          <TabsContent value="config" className="mt-0">
+            {mode === "config" && <ConfigSimulationMode />}
+          </TabsContent>
+
+          <TabsContent value="simulation" className="mt-0">
+            {mode === "simulation" && <ModeSimulation />}
+          </TabsContent>
+
+          <TabsContent value="defi-config" className="mt-0">
+            {mode === "defi-config" && <ModeDefiConfig />}
+          </TabsContent>
+
+          <TabsContent value="defi-liquidation" className="mt-0">
+            {mode === "defi-liquidation" && <ModeDefiLiquidation />}
+          </TabsContent>
+
+          <TabsContent value="buffer-v5" className="mt-0">
+            {mode === "buffer-v5" && <BufferDashboardShell />}
+          </TabsContent>
+          */}
         </Tabs>
       </main>
+      </div>
 
-      {/* Footer */}
+      {/* ── Footer ── */}
       <footer className="border-t border-border bg-card/50 px-6 py-3">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between text-xs text-muted-foreground">
           <span>
-            StableRisk AI v1.0 - Stablecoin Reserve Verification Engine
+            StableRisk AI v1.0 — Stablecoin Reserve &amp; DeFi Liquidation Risk Engine
           </span>
           <span className="hidden sm:inline">
-            ACTUS Financial Contracts - Algorithmic Contract Types Unified
-            Standards
+            ACTUS Financial Contracts — Algorithmic Contract Types Unified Standards
           </span>
         </div>
       </footer>

@@ -156,7 +156,16 @@ export interface ScenarioTemplate {
 
 // ---- UI State Types ----
 
-export type DashboardMode = "upload" | "manual" | "chat"
+export type DashboardMode =
+  | "upload"
+  | "chat"
+  | "simulation"
+  | "config"
+  | "defi-config"
+  | "defi-liquidation"
+  | "buffer-v5"
+  | "issuer"
+  | "holder"
 
 export type Jurisdiction = "eu-mica" | "us-genius" | "custom"
 
@@ -166,4 +175,66 @@ export interface HealthStatus {
   status: "healthy" | "unhealthy" | "checking"
   actusConnected: boolean
   apiVersion?: string
+}
+
+// ---- Stimulation Types ----
+
+export interface StimulationListItem {
+  id: string
+  category: string
+  filename: string
+  name: string
+  description: string
+  stepsCount: number
+}
+
+export interface StimulationStepResult {
+  step: number
+  name: string
+  method: string
+  url: string
+  status: "success" | "failed"
+  httpStatus?: number
+  response?: any
+  error?: string
+  durationMs: number
+}
+
+export interface SimulationEvent {
+  time: string
+  type: string
+  payoff: number
+  nominalValue: number
+  currency: string
+  nominalInterestRate?: number
+  states?: Record<string, number>
+}
+
+export interface RiskFactorPoint {
+  time: string
+  value: number
+}
+
+export interface StimulationResult {
+  success: boolean
+  scenarioName: string
+  description: string
+  environment: string
+  riskServiceUrl: string
+  actusServerUrl: string
+  steps: StimulationStepResult[]
+  simulation: Array<{
+    contractId: string
+    events: SimulationEvent[]
+  }> | null
+  /** Risk factor input time-series extracted from addReferenceIndex steps */
+  riskFactorData: Record<string, RiskFactorPoint[]> | null
+  totalDurationMs: number
+  timestamp: string
+}
+
+export interface EnvironmentInfo {
+  name: string
+  riskServiceUrl: string
+  actusServerUrl: string
 }

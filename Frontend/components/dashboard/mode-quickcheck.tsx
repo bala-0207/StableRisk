@@ -39,10 +39,12 @@ export function ModeQuickCheck() {
   const [isChecking, setIsChecking] = useState(false)
   const [result, setResult] = useState<VerifyResponse | null>(null)
   const [totalSupply, setTotalSupply] = useState("1000000")
+  const [error, setError] = useState<string>("")
 
   const handleCheck = async () => {
     setIsChecking(true)
     setResult(null)
+    setError("")
     const preset = presetPortfolios.find((p) => p.id === selectedPreset)
     if (!preset) return
 
@@ -51,16 +53,9 @@ export function ModeQuickCheck() {
     try {
       const res = await verifyPortfolio(preset.portfolio, thresholds)
       setResult(res)
-    } catch {
-      const { demoVerifyResponse, demoFailedResponse } = await import(
-        "@/lib/sample-data"
-      )
-      const isAggressive = selectedPreset === "aggressive-8m"
-      setResult({
-        ...(isAggressive ? demoFailedResponse : demoVerifyResponse),
-        jurisdiction,
-        timestamp: new Date().toISOString(),
-      })
+    } catch (err: any) {
+      setResult(null)
+      setError(`Verification failed: ${err?.message || "Unknown error"}. Please ensure the backend server is running on localhost:4000 and ACTUS server is accessible.`)
     } finally {
       setIsChecking(false)
     }
@@ -68,6 +63,7 @@ export function ModeQuickCheck() {
 
   const handleReset = () => {
     setResult(null)
+    setError("")
     setSelectedPreset(presetPortfolios[0].id)
     setJurisdiction("us-genius")
     setTotalSupply("1000000")
@@ -265,6 +261,16 @@ export function ModeQuickCheck() {
                 </>
               )}
             </Button>
+
+            {/* Error Display */}
+            {error && (
+              <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+                <div className="flex items-start gap-2">
+                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                  <p className="text-sm text-destructive">{error}</p>
+                </div>
+              </div>
+            )}
           </motion.div>
         ) : (
           <motion.div

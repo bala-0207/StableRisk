@@ -1,5 +1,5 @@
-import { DashboardShell } from "@/components/dashboard/dashboard-shell"
+import { ClientShell } from "@/components/dashboard/client-shell"
 
 export default function Page() {
-  return <DashboardShell />
+  return <ClientShell />
 }
