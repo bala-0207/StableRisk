@@ -1,1 +1,0 @@
-See /mnt/user-data/outputs/HOL-ONLY-fix7-design.md for the full design document.

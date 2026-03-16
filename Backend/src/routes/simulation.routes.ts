@@ -5,8 +5,6 @@
 
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { loadConfig, loadCollection } from '../config/config-loader.js';
-import type { IssuerConfig, HolderConfig } from '../config/config.types.js';
 import { runStimulation, ENVIRONMENTS } from '../api/SimulationRunner.js';
 import type { EnvironmentConfig } from '../api/SimulationRunner.js';
 import { promises as fsPromises } from 'fs';
@@ -19,77 +17,7 @@ const __dirname = path.dirname(__filename);
 const router = Router();
 
 // ═══════════════════════════════════════════════════════════════════
-// Existing route — untouched
-// ═══════════════════════════════════════════════════════════════════
-
-/**
- * POST /api/simulate
- * Run simulation with config-based parameters
- */
-router.post('/simulate', async (req: Request, res: Response) => {
-  try {
-    const { configData } = req.body;
-    
-    if (!configData) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required field: configData'
-      });
-    }
-    
-    console.log('\n🎯 Config-Based Simulation Request');
-    console.log('   Config ID:', configData.config_metadata?.config_id);
-    console.log('   Collection:', configData.config_metadata?.collection_file);
-    
-    const resolvedConfig = await loadConfig(configData as IssuerConfig | HolderConfig);
-    console.log('   ✅ Config resolved');
-    console.log('   Jurisdiction:', resolvedConfig.jurisdiction_data.jurisdiction_code);
-    console.log('   Monitoring times generated:', resolvedConfig.generated.monitoring_times.length);
-    
-    const baseCollection = await loadCollection(configData.config_metadata.collection_file);
-    console.log('   ✅ Base collection loaded');
-    console.log('   Collection name:', baseCollection.info?.name);
-    console.log('   Operations:', baseCollection.item?.length || 0);
-    
-    console.log('   🚀 Running ACTUS simulation...');
-    const envConfig = ENVIRONMENTS.localhost;
-    const simulationResult = await runStimulation(baseCollection, envConfig, 'localhost');
-    
-    if (!simulationResult.success) {
-      return res.status(500).json({
-        success: false,
-        error: 'Simulation failed',
-        details: simulationResult
-      });
-    }
-    
-    console.log('   ✅ Simulation complete');
-    console.log('   Steps executed:', simulationResult.steps?.length || 0);
-    console.log('   Contracts:', simulationResult.simulation?.length || 0);
-    
-    return res.json({
-      ...simulationResult,
-      configMetadata: {
-        entity_type: configData.config_metadata.collection_file.includes('ISS') ? 'issuer' : 'holder',
-        jurisdiction: resolvedConfig.jurisdiction_data.jurisdiction_code,
-        monitoring_times_count: resolvedConfig.generated.monitoring_times.length,
-        config_id: resolvedConfig.config_metadata.config_id,
-        collection_file: resolvedConfig.config_metadata.collection_file
-      }
-    });
-    
-  } catch (error: any) {
-    console.error('Simulation error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-    });
-  }
-});
-
-// ═══════════════════════════════════════════════════════════════════
-// NEW: Stablecoin simulation with inline threshold overrides
+// Stablecoin simulation with inline threshold overrides
 // ═══════════════════════════════════════════════════════════════════
 
 /**
@@ -100,7 +28,7 @@ async function loadStablecoinCollection(entityType: 'issuer' | 'holder'): Promis
     ? 'Stables-HT-ISS-time-daily-5.json'
     : 'Stables-HT-HOL-ONLY-3RD-SOURCE-time-daily-5.json';
   const filePath = path.join(
-    __dirname, '..', '..', 'config', 'stimulation', 'stablecoin', 'defaults', filename,
+    __dirname, '..', '..', 'config', 'stablecoin', 'defaults', filename,
   );
   const content = await fsPromises.readFile(filePath, 'utf-8');
   return JSON.parse(content);
@@ -282,7 +210,7 @@ router.post('/stablecoin-simulate', async (req: Request, res: Response) => {
     console.log(`\n🔷 Stablecoin Simulation [${entityType.toUpperCase()}]`);
 
     // 1. Resolve environment
-    const envName = environment || 'localhost';
+    const envName = environment || 'aws';
     const envConfig: EnvironmentConfig = ENVIRONMENTS[envName];
     if (!envConfig) {
       return res.status(400).json({

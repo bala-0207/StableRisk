@@ -203,7 +203,7 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
   const [result, setResult] = useState<any | null>(null)
   const [error, setError] = useState("")
   const [expandedRaw, setExpandedRaw] = useState(false)
-  const [environment, setEnvironment] = useState("localhost")
+  const [environment] = useState("aws")
   const [vleiStatus, setVleiStatus] = useState<'idle' | 'signing' | 'signed' | 'error'>('idle')
   const [vleiResult, setVleiResult] = useState<any>(null)
 
@@ -387,9 +387,8 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
           <select
             className="h-8 w-full rounded border border-slate-200 bg-slate-50 px-2 text-[11px] text-slate-700"
             value={environment}
-            onChange={(e) => setEnvironment(e.target.value)}
+            disabled
           >
-            <option value="localhost">localhost (8082/8083)</option>
             <option value="aws">AWS (34.203.247.32)</option>
           </select>
 
