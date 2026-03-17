@@ -131,12 +131,14 @@ Holder simulation is currently under development and will be available in a futu
 
 ### vLEI Tab
 
-Runs **real vLEI credential signing** via KERIA Docker containers.
+Provides **vLEI credential signing** capabilities using KERIA and the GLEIF vLEI ecosystem.
 
-- **Run vLEI 4C**: Executes the Jupiter Seller credential signing workflow — connects to KERIA, uses OOR credentials, creates invoice registry, issues self-attested invoice credential with cryptographic digital signature
-- **Query Credentials**: Retrieves existing credentials from KERIA (OOR + Invoice credentials with full signature data)
-- **Status Check**: Verifies Docker containers are running (KERIA, schema server, tsx-shell) and agent data exists
-- **Results**: Digital signature card (credential SAID, issuer AID, issuee AID, schema SAID, registry ID), workflow steps, highlighted credential JSON
+The vLEI integration could not be fully integrated into the continuous simulation workflow within the current release, but the working code for credential issuance, querying, and status checking has been included in the codebase.
+
+- **Run Credential Workflow**: Issues a self-attested credential with a real cryptographic digital signature via KERIA
+- **Query Credentials**: Retrieves existing credentials with full signature data
+- **Status Check**: Verifies that the required Docker containers are healthy and ready
+- **Results**: Displays digital signature details (SAID, AID, schema, registry), workflow execution steps, and the full credential JSON
 
 **vLEI Setup** (required for the vLEI tab only):
 
@@ -145,7 +147,7 @@ cd LegentvLEI
 docker compose up -d
 ```
 
-Ensure the KERIA, schema server, and tsx-shell containers are running before using the vLEI tab.
+Ensure the Docker containers are running before using the vLEI tab.
 
 ---
 
@@ -155,7 +157,7 @@ Ensure the KERIA, schema server, and tsx-shell containers are running before usi
 |--------|----------|-------------|
 | `GET` | `/api/health` | Health check — returns ACTUS connection status |
 | `POST` | `/api/stablecoin-simulate` | Run issuer or holder stablecoin simulation with threshold overrides |
-| `POST` | `/api/vlei/run` | Execute Jupiter Seller vLEI credential signing workflow |
+| `POST` | `/api/vlei/run` | Execute vLEI credential signing workflow |
 | `GET` | `/api/vlei/query` | Query existing credentials from KERIA |
 | `GET` | `/api/vlei/status` | Check KERIA + vLEI Docker container health |
 
