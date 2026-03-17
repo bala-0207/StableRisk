@@ -251,7 +251,18 @@ export function DashboardShell() {
                 exit={{ opacity: 0, x: 12 }}
                 transition={{ duration: 0.25 }}
               >
-                <ConfigSimulationMode entityType="holder" />
+                <div className="flex flex-col items-center justify-center py-24 text-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 mb-4">
+                    <User className="h-8 w-8 text-slate-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-700">Holder Simulation</h3>
+                  <p className="mt-2 text-sm text-slate-500 max-w-md">
+                    Holder simulation is currently under development. This feature will allow you to simulate USD ↔ USDC allocation strategies with configurable risk thresholds.
+                  </p>
+                  <span className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                    Coming Soon
+                  </span>
+                </div>
               </motion.div>
             )}
           </TabsContent>

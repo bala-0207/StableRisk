@@ -41,71 +41,6 @@ As the stablecoin market expands from 50+ issuers today toward hundreds globally
 
 ---
 
-## Project Structure
-
-```
-StableRisk/
-├── Backend/                    # Express API server (port 4000)
-│   ├── src/
-│   │   ├── server.ts           # Express app — health check, route registration
-│   │   ├── routes/
-│   │   │   ├── simulation.routes.ts   # POST /api/stablecoin-simulate (Issuer + Holder)
-│   │   │   └── vlei.routes.ts         # POST /api/vlei/run, GET /api/vlei/query, GET /api/vlei/status
-│   │   ├── api/
-│   │   │   ├── SimulationRunner.ts    # Executes Postman collection JSONs against ACTUS
-│   │   │   └── ACTUSClient.ts         # ACTUS server HTTP client
-│   │   ├── config/
-│   │   │   ├── config-loader.ts       # Loads & resolves stablecoin config files
-│   │   │   ├── config.types.ts        # TypeScript interfaces for configs
-│   │   │   └── monitoring-time-generator.ts  # Generates ISO timestamps for simulation
-│   │   ├── verifier/
-│   │   │   └── StableCoinVerifier.ts  # Core verification logic (backing, liquidity, concentration, quality)
-│   │   ├── types/
-│   │   │   └── index.ts              # Shared TypeScript type definitions
-│   │   └── utils/
-│   │       └── validation.ts         # Data validation & summary display
-│   ├── config/
-│   │   └── stablecoin/               # Stablecoin simulation config files
-│   │       ├── defaults/             # Base Postman collection JSONs (ISS + HOL)
-│   │       ├── jurisdictions/        # US GENIUS, EU MiCA jurisdiction params
-│   │       ├── market-scenarios/     # Market stress scenario data
-│   │       ├── compliance-scenarios/ # Compliance scenario data
-│   │       └── profiles/            # Issuer/holder profile configs
-│   ├── schemas/                      # JSON schemas for config validation
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── Frontend/                   # Next.js web UI (port 3000)
-│   ├── app/
-│   │   ├── page.tsx            # Root page → loads ClientShell
-│   │   ├── layout.tsx          # App layout
-│   │   └── globals.css         # Global styles
-│   ├── components/
-│   │   ├── dashboard/
-│   │   │   ├── client-shell.tsx       # Dynamic import wrapper (SSR disabled)
-│   │   │   ├── dashboard-shell.tsx    # Main shell — tabs, header, health check
-│   │   │   ├── mode-config.tsx        # Issuer + Holder simulation UI (sliders, presets, charts)
-│   │   │   └── vlei-panel.tsx         # vLEI credential signing UI
-│   │   └── ui/                        # Reusable UI components (shadcn/ui)
-│   ├── lib/
-│   │   ├── api.ts              # API client functions for backend
-│   │   ├── types.ts            # Frontend TypeScript types
-│   │   └── utils.ts            # Utility functions
-│   ├── .env                    # Environment variables
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── LegentvLEI/                 # vLEI Docker environment (KERIA + credential signing)
-│   ├── docker-compose.yml      # KERIA, schema server, tsx-shell containers
-│   ├── sig-wallet/             # Credential signing scripts
-│   ├── task-data/              # Agent data, credential outputs
-│   └── ...
-│
-└── README.md                   # This file
-```
-
----
-
 ## Prerequisites
 
 - **Node.js** >= 18.x
@@ -192,12 +127,7 @@ Simulates stablecoin **issuer** risk using ACTUS behavioral models.
 
 ### Holder Tab
 
-Simulates a stablecoin **holder's** 45-day USD ↔ USDC allocation strategy.
-
-- **Investor Presets**: Conservative, Moderate, Aggressive — one-click to load portfolio + threshold values
-- **Portfolio Config**: Initial USD, target USDC, deploy % per day
-- **Good/Bad Thresholds**: Defines when to BUY (all risk metrics below "good" thresholds) or SELL (any risk metric above "bad" thresholds) — backing risk, liquidity risk, peg deviation, market risk, HQLA score, custodian concentration
-- **Results**: Day-by-day portfolio table (USD, USDC, total, action, risk metrics), stacked area chart, risk metric line chart, HQLA/concentration chart, buy/sell bar chart
+Holder simulation is currently under development and will be available in a future release.
 
 ### vLEI Tab
 
@@ -261,6 +191,8 @@ All simulations run against a remote ACTUS Financial Contracts server:
 |---------|-----|
 | Risk Factor Service | `http://34.203.247.32:8082` |
 | Simulation Server | `http://34.203.247.32:8083` |
+
+🔗 **ACTUS Risk Extension Server**: [github.com/bala-0207/ACTUS-RISK-EXTENSION](https://github.com/bala-0207/ACTUS-RISK-EXTENSION.git) — Source code and documentation for the ACTUS risk factor service and simulation server used by StableRisk.
 
 The backend's SimulationRunner executes Postman collection JSONs (stored in `Backend/config/stablecoin/defaults/`) step-by-step against these servers. It supports two modes:
 
@@ -505,6 +437,8 @@ Compliant if: Quality Score >= Quality Threshold
 **Proprietary - Not Open Source**
 
 This project is proprietary software. All rights reserved. Unauthorized copying, modification, distribution, or use of this software is strictly prohibited.
+
+> **Note:** This repository will be converted to a private repository in 4 weeks. If you need access after that, please contact the author.
 
 ---
 
