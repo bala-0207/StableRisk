@@ -937,8 +937,43 @@ async function runScriptedCollection(
   );
   console.log('');
 
-  // Extract risk factor input time-series from collection
+  // Extract risk factor input time-series from collection (static indexes from request bodies)
   const riskFactorData = extractRiskFactorInputs(collectionJson);
+
+  // Merge the 10 derived indexes computed at runtime by the Phase 0.3 test script.
+  // These are stored in collVars by the script and never appear in static request bodies,
+  // so extractRiskFactorInputs cannot find them. We read them directly from collVars here.
+  const DERIVED_INDEX_MAP: Record<string, string> = {
+    derived_backing:     'SC_BACKING_RATIO',
+    derived_cash:        'SC_CASH_RESERVE',
+    derived_reserves:    'SC_TOTAL_RESERVES',
+    derived_wam:         'SC_WAM_DAYS',
+    derived_bucket_cash: 'SC_BUCKET_CASH',
+    derived_bucket_4w:   'SC_BUCKET_4W_TBILL',
+    derived_bucket_13w:  'SC_BUCKET_13W_TBILL',
+    derived_bucket_26w:  'SC_BUCKET_26W_TBILL',
+    derived_hqla:        'SC_HQLA_SCORE',
+    derived_attest:      'SC_ATTESTATION_AGE',
+    derived_liquidity:   'SC_LIQUIDITY_RATIO',
+    derived_quality:     'SC_ASSET_QUALITY_SCORE',
+    derived_max_conc:    'SC_MAX_CONCENTRATION',
+  };
+  for (const [collKey, mocName] of Object.entries(DERIVED_INDEX_MAP)) {
+    const raw = collVars[collKey];
+    if (!raw || raw.trim() === '' || raw.trim() === '[]') continue;
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        riskFactorData[mocName] = (parsed as Array<{ time: string; value: number }>).map((pt) => ({
+          time: String(pt.time),
+          value: Number(pt.value),
+        }));
+        console.log(`   ✅ Derived index merged: ${mocName} (${(parsed as any[]).length} pts)`);
+      }
+    } catch {
+      console.warn(`   ⚠️  Could not parse collVar '${collKey}' as JSON`);
+    }
+  }
 
   return {
     success: allStepsOk && simulationData !== null,

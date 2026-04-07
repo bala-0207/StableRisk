@@ -78,7 +78,7 @@ const ISS_PRESETS: Record<string, { label: string; thresholds: IssuerThresholds 
       wamMaxDays: 93,
       bankStressThreshold: 0.5,
       baseQuality: 100,
-      qualityFloor: 50,
+      qualityFloor: 100,
       sovereignMaxDegradation: 0.30,
       maxSingleAssetShare: 0.40,
       hhiWarningThreshold: 0.35,
@@ -92,21 +92,21 @@ const ISS_PRESETS: Record<string, { label: string; thresholds: IssuerThresholds 
       wamMaxDays: 60,
       bankStressThreshold: 0.4,
       baseQuality: 100,
-      qualityFloor: 60,
+      qualityFloor: 100,
       sovereignMaxDegradation: 0.20,
       maxSingleAssetShare: 0.30,
       hhiWarningThreshold: 0.25,
     },
   },
-  conservative: {
-    label: "Conservative",
+  custom: {
+    label: "Custom",
     thresholds: {
       backingThreshold: 1.1,
       liquidityThreshold: 0.4,
       wamMaxDays: 45,
       bankStressThreshold: 0.3,
       baseQuality: 100,
-      qualityFloor: 70,
+      qualityFloor: 100,
       sovereignMaxDegradation: 0.15,
       maxSingleAssetShare: 0.25,
       hhiWarningThreshold: 0.20,
@@ -163,13 +163,13 @@ async function runStablecoinSimulation(body: Record<string, unknown>): Promise<a
 // Reusable input components
 // ═══════════════════════════════════════════════════════════════════
 
-function SliderRow({ label, value, min, max, step, unit, onChange }: {
-  label: string; value: number; min: number; max: number; step: number; unit?: string; onChange: (v: number) => void
+function SliderRow({ label, value, min, max, step, unit, onChange, disabled }: {
+  label: string; value: number; min: number; max: number; step: number; unit?: string; onChange: (v: number) => void; disabled?: boolean
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-2 ${disabled ? "pointer-events-none" : ""}`}>
       <span className="w-40 shrink-0 text-[11px] text-slate-500">{label}</span>
-      <Slider className="flex-1" min={min} max={max} step={step} value={[value]} onValueChange={([v]) => onChange(v)} />
+      <Slider className="flex-1" min={min} max={max} step={step} value={[value]} onValueChange={([v]) => onChange(v)} disabled={disabled} />
       <span className="w-16 shrink-0 text-right font-mono text-[11px] font-semibold text-slate-700">{value}{unit || ""}</span>
     </div>
   )
@@ -309,14 +309,15 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                 <CardDescription className="text-[10px]">Injected into ACTUS behavioral models</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2 px-3 pb-3">
-                <SliderRow label="Backing Threshold" value={issThresholds.backingThreshold} min={0.8} max={1.5} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, backingThreshold: v }))} />
-                <SliderRow label="Liquidity Threshold" value={issThresholds.liquidityThreshold} min={0.05} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, liquidityThreshold: v }))} />
-                <SliderRow label="WAM Max Days" value={issThresholds.wamMaxDays} min={14} max={180} step={1} unit="d" onChange={(v) => setIssThresholds((p) => ({ ...p, wamMaxDays: v }))} />
-                <SliderRow label="Bank Stress" value={issThresholds.bankStressThreshold} min={0.1} max={0.9} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, bankStressThreshold: v }))} />
-                <SliderRow label="Quality Floor" value={issThresholds.qualityFloor} min={20} max={100} step={1} onChange={(v) => setIssThresholds((p) => ({ ...p, qualityFloor: v }))} />
-                <SliderRow label="Sovereign Degradation" value={issThresholds.sovereignMaxDegradation} min={0.05} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, sovereignMaxDegradation: v }))} />
-                <SliderRow label="Max Single Asset" value={issThresholds.maxSingleAssetShare} min={0.1} max={0.8} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, maxSingleAssetShare: v }))} />
-                <SliderRow label="HHI Warning" value={issThresholds.hhiWarningThreshold} min={0.1} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, hhiWarningThreshold: v }))} />
+                <SliderRow label="Backing Threshold" value={issThresholds.backingThreshold} min={0.8} max={1.5} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, backingThreshold: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="Liquidity Threshold" value={issThresholds.liquidityThreshold} min={0.05} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, liquidityThreshold: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="WAM Max Days" value={issThresholds.wamMaxDays} min={14} max={180} step={1} unit="d" onChange={(v) => setIssThresholds((p) => ({ ...p, wamMaxDays: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="Max Single Asset" value={issThresholds.maxSingleAssetShare} min={0.1} max={0.8} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, maxSingleAssetShare: v }))} disabled={issPreset !== "custom"} />
+                <div className="border-t border-slate-200 my-1" />
+                <SliderRow label="Bank Stress" value={issThresholds.bankStressThreshold} min={0.1} max={0.9} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, bankStressThreshold: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="Quality Floor" value={issThresholds.qualityFloor} min={20} max={100} step={1} onChange={(v) => setIssThresholds((p) => ({ ...p, qualityFloor: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="Sovereign Degradation" value={issThresholds.sovereignMaxDegradation} min={0.05} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, sovereignMaxDegradation: v }))} disabled={issPreset !== "custom"} />
+                <SliderRow label="HHI Warning" value={issThresholds.hhiWarningThreshold} min={0.1} max={0.6} step={0.01} onChange={(v) => setIssThresholds((p) => ({ ...p, hhiWarningThreshold: v }))} disabled={issPreset !== "custom"} />
               </CardContent>
             </Card>
           </>
@@ -396,7 +397,7 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
             {isRunning ? (
               <><Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> Running…</>
             ) : (
-              <><Play className="mr-2 h-3.5 w-3.5" /> Run Simulation</>
+              <><Play className="mr-2 h-3.5 w-3.5" /> Run Engine</>
             )}
           </Button>
         </div>
@@ -455,13 +456,12 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                 <button
                   type="button"
                   disabled={vleiStatus === 'signing'}
-                  className={`flex items-center gap-1 rounded border px-2 py-0.5 text-[10px] font-medium transition-colors ${
-                    vleiStatus === 'signed'
+                  className={`flex items-center gap-1 rounded border px-2 py-0.5 text-[10px] font-medium transition-colors ${vleiStatus === 'signed'
                       ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
                       : vleiStatus === 'error'
                         ? 'border-red-300 bg-red-50 text-red-600'
                         : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-800'
-                  }`}
+                    }`}
                   onClick={async () => {
                     setVleiStatus('signing')
                     setVleiResult(null)
@@ -579,8 +579,17 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                 if (!liability) return null
                 const ppEvts = (liability.events || []).filter((e: any) => e.type === 'PP')
                 if (ppEvts.length === 0) return null
-                const MODEL_NAMES = ['Backing Ratio', 'Compliance', 'Quality', 'Maturity', 'Concentration', 'Attestation']
                 const MODELS_PER_DAY = 6
+                // Build date-keyed lookup from riskFactorData for ratio columns
+                const rfLookup: Record<string, Record<string, number>> = {}
+                if (result?.riskFactorData) {
+                  for (const [name, pts] of Object.entries(result.riskFactorData as Record<string, Array<{ time: string; value: number }>>)) {
+                    rfLookup[name] = {}
+                    for (const pt of pts) {
+                      rfLookup[name][pt.time.slice(0, 10)] = pt.value
+                    }
+                  }
+                }
                 const rows: any[] = []
                 for (let i = 0; i < ppEvts.length; i += MODELS_PER_DAY) {
                   const chunk = ppEvts.slice(i, i + MODELS_PER_DAY)
@@ -598,34 +607,90 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                       <table className="w-full text-[11px]">
                         <thead>
                           <tr className="border-b border-slate-200 bg-slate-50 text-left text-slate-500">
+                            <th className="p-2 text-right w-20 text-orange-600">Bank Stress</th>
+                            <th className="p-2 text-right w-20 text-orange-600">Sov Stress</th>
                             <th className="p-2 w-10">Day</th>
                             <th className="p-2 w-28">Date</th>
-                            {MODEL_NAMES.map((m) => <th key={m} className="p-2 text-right w-20">{m}</th>)}
-                            <th className="p-2 text-right w-24">Nominal</th>
-                            <th className="p-2 w-14">Status</th>
+                            <th className="p-2 text-right w-20 text-blue-600">Bkg Ratio</th>
+                            <th className="p-2 text-right w-20 text-blue-600">Liq Ratio</th>
+                            <th className="p-2 text-right w-20 text-blue-600">Cash $</th>
+                            <th className="p-2 text-right w-16 text-blue-600">WAM d</th>
+                            <th className="p-2 text-right w-28 text-blue-600">Reserves $</th>
+                            <th className="p-2 text-right w-20 text-rose-600">Quality %</th>
+                            <th className="p-2 text-right w-20 text-amber-600">Max Conc %</th>
+                            <th className="p-2 text-right w-16 text-amber-600">HHI</th>
                           </tr>
                         </thead>
                         <tbody className="font-mono">
                           {rows.map((row) => (
                             <tr key={row.dayNum} className={`border-b border-slate-100 ${row.hasAlert ? 'bg-red-50/50' : ''}`}>
+                              {(() => {
+                                const dk = row.date?.slice(0, 10) || ''
+                                return (
+                                  <>
+                                    <td className={`p-2 text-right ${(rfLookup['BANK_STRESS_INDEX']?.[dk] ?? 0) >= 0.5 ? 'text-red-600 font-semibold' : 'text-orange-600'}`}>
+                                      {rfLookup['BANK_STRESS_INDEX']?.[dk] !== undefined ? rfLookup['BANK_STRESS_INDEX'][dk].toFixed(2) : '—'}
+                                    </td>
+                                    <td className="p-2 text-right text-orange-600">
+                                      {rfLookup['US_SOVEREIGN_STRESS']?.[dk] !== undefined ? rfLookup['US_SOVEREIGN_STRESS'][dk].toFixed(2) : '—'}
+                                    </td>
+                                  </>
+                                )
+                              })()}
                               <td className="p-2 font-semibold text-slate-700">{row.dayNum}</td>
                               <td className="p-2 text-slate-500">{row.date?.split('T')[0] || ''}</td>
-                              {row.payoffs.map((p: number, pi: number) => (
-                                <td key={pi} className={`p-2 text-right ${p !== 0 ? 'text-red-600 font-semibold' : 'text-emerald-600'}`}>
-                                  {p === 0 ? '0' : p.toFixed(2)}
-                                </td>
-                              ))}
-                              {/* pad if fewer than 6 models */}
-                              {row.payoffs.length < MODELS_PER_DAY && Array.from({ length: MODELS_PER_DAY - row.payoffs.length }).map((_: any, ki: number) => (
-                                <td key={`pad-${ki}`} className="p-2 text-right text-slate-300">—</td>
-                              ))}
-                              <td className="p-2 text-right text-slate-600">{row.nominal.toLocaleString()}</td>
-                              <td className="p-2">
-                                {row.hasAlert
-                                  ? <span className="rounded bg-red-100 px-1.5 py-0.5 text-[10px] font-medium text-red-700">ALERT</span>
-                                  : <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">OK</span>
-                                }
-                              </td>
+                              {(() => {
+                                const dk = row.date?.slice(0, 10) || ''
+                                const bkgRatio = rfLookup['SC_BACKING_RATIO']?.[dk]
+                                const cashReserve = rfLookup['SC_CASH_RESERVE']?.[dk]
+                                const wam = rfLookup['SC_WAM_DAYS']?.[dk]
+                                const reserves = rfLookup['SC_TOTAL_RESERVES']?.[dk]
+                                return (
+                                  <>
+                                    <td className={`p-2 text-right font-semibold ${bkgRatio !== undefined && bkgRatio < 1.0 ? 'text-red-600' : 'text-blue-700'}`}>
+                                      {bkgRatio !== undefined ? bkgRatio.toFixed(4) : '—'}
+                                    </td>
+                                    <td className={`p-2 text-right font-semibold ${rfLookup['SC_LIQUIDITY_RATIO']?.[dk] !== undefined && rfLookup['SC_LIQUIDITY_RATIO'][dk] < 0.2 ? 'text-red-600' : 'text-blue-700'}`}>
+                                      {rfLookup['SC_LIQUIDITY_RATIO']?.[dk] !== undefined ? rfLookup['SC_LIQUIDITY_RATIO'][dk].toFixed(4) : '—'}
+                                    </td>
+                                    <td className="p-2 text-right text-blue-600">
+                                      {cashReserve !== undefined ? `$${cashReserve.toLocaleString()}` : '—'}
+                                    </td>
+                                    <td className="p-2 text-right text-blue-600">
+                                      {wam !== undefined ? wam.toFixed(1) : '—'}
+                                    </td>
+                                    <td className="p-2 text-right text-blue-600">
+                                      {reserves !== undefined ? ` $${Math.round(reserves).toLocaleString()}` : '—'}
+                                    </td>
+                                    {/* Asset Quality Score */}
+
+                                    <td className={`p-2 text-right font-semibold ${rfLookup['SC_ASSET_QUALITY_SCORE']?.[dk] !== undefined && rfLookup['SC_ASSET_QUALITY_SCORE'][dk] < 100 ? 'text-red-600' : 'text-emerald-600'}`}>
+                                      {rfLookup['SC_ASSET_QUALITY_SCORE']?.[dk] !== undefined ? rfLookup['SC_ASSET_QUALITY_SCORE'][dk].toFixed(1) : '—'}
+                                    </td>
+                                    {/* Max Concentration: from SC_MAX_CONCENTRATION (highest single T-bill MtM / SUPPLY) */}
+                                    {/* HHI: still computed from bucket shares */}
+                                    {(() => {
+                                      const maxConcVal = rfLookup['SC_MAX_CONCENTRATION']?.[dk]
+                                      const cs = rfLookup['SC_BUCKET_CASH']?.[dk] ?? 0
+                                      const ss = rfLookup['SC_BUCKET_4W_TBILL']?.[dk] ?? 0
+                                      const ms = rfLookup['SC_BUCKET_13W_TBILL']?.[dk] ?? 0
+                                      const ls = rfLookup['SC_BUCKET_26W_TBILL']?.[dk] ?? 0
+                                      const hhi = cs*cs + ss*ss + ms*ms + ls*ls
+                                      const hasHHIData = rfLookup['SC_BUCKET_CASH']?.[dk] !== undefined
+                                      return (
+                                        <>
+                                          <td className={`p-2 text-right font-semibold ${maxConcVal !== undefined && maxConcVal > 0.40 ? 'text-red-600' : 'text-amber-600'}`}>
+                                            {maxConcVal !== undefined ? (maxConcVal * 100).toFixed(1) : '—'}
+                                          </td>
+                                          <td className={`p-2 text-right font-semibold ${hasHHIData && hhi > 0.35 ? 'text-red-600' : 'text-amber-600'}`}>
+                                            {hasHHIData ? hhi.toFixed(3) : '—'}
+                                          </td>
+                                        </>
+                                      )
+                                    })()}
+                                  </>
+                                )
+                              })()}
                             </tr>
                           ))}
                         </tbody>
@@ -634,8 +699,6 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                     <div className="mt-3 flex flex-wrap gap-4 rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
                       <span>Days: <strong>{rows.length}</strong></span>
                       <span>PP Events: <strong>{ppEvts.length}</strong></span>
-                      <span>Alert Days: <strong className="text-red-600">{rows.filter((r: any) => r.hasAlert).length}</strong></span>
-                      <span>Clean Days: <strong className="text-emerald-600">{rows.filter((r: any) => !r.hasAlert).length}</strong></span>
                     </div>
                   </TabsContent>
                 )
@@ -695,7 +758,7 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                           <AreaChart data={portfolioHistory}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                             <XAxis dataKey="day" tick={{ fontSize: 10 }} stroke="#94a3b8" />
-                            <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" tickFormatter={(v: number) => `${(v/1000).toFixed(0)}k`} />
+                            <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
                             <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
                             <Legend wrapperStyle={{ fontSize: 11 }} />
                             <Area type="monotone" dataKey="usdc" stackId="1" fill="#22c55e" stroke="#16a34a" fillOpacity={0.6} name="USDC" />
@@ -742,7 +805,7 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                           <BarChart data={portfolioHistory.map((r: any) => ({ day: r.day, buy: r.action === 'BUY_USDC' ? r.amount : 0, sell: r.action === 'SELL_USDC' ? -r.amount : 0 }))}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                             <XAxis dataKey="day" tick={{ fontSize: 10 }} stroke="#94a3b8" />
-                            <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" tickFormatter={(v: number) => `${(Math.abs(v)/1000).toFixed(0)}k`} />
+                            <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" tickFormatter={(v: number) => `${(Math.abs(v) / 1000).toFixed(0)}k`} />
                             <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
                             <Bar dataKey="buy" fill="#22c55e" name="Buy USDC" />
                             <Bar dataKey="sell" fill="#ef4444" name="Sell USDC" />
@@ -751,53 +814,82 @@ export function ConfigSimulationMode({ entityType }: ConfigSimulationProps) {
                       </div>
                     </>
                   )}
-                  {/* ISS charts */}
-                  {contractEvents && contractEvents.length > 0 && (
-                    <>
-                      <div>
-                        <h4 className="mb-1.5 text-xs font-semibold text-slate-600">Events per contract</h4>
-                        <ResponsiveContainer width="100%" height={200}>
-                          <BarChart data={contractEvents.map((c: any) => {
-                            const cid = (c.contractId || c.contractID || '').replace('ISS-', '')
-                            const evts = c.events || []
-                            return { name: cid.length > 16 ? cid.slice(0, 16) + '…' : cid, total: evts.length, pp: evts.filter((e: any) => e.type === 'PP').length }
-                          })}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                            <XAxis dataKey="name" tick={{ fontSize: 9 }} stroke="#94a3b8" angle={-15} textAnchor="end" height={45} />
-                            <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" />
-                            <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
-                            <Legend wrapperStyle={{ fontSize: 11 }} />
-                            <Bar dataKey="total" fill="#94a3b8" name="Total Events" />
-                            <Bar dataKey="pp" fill="#f59e0b" name="PP (Risk)" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                      {(() => {
-                        const liability = contractEvents.find((c: any) => (c.contractId || c.contractID || '').includes('Liability'))
-                        if (!liability) return null
-                        const ppEvts = (liability.events || []).filter((e: any) => e.type === 'PP' && e.payoff !== 0)
-                        if (ppEvts.length === 0) return null
-                        return (
-                          <div>
-                            <h4 className="mb-1.5 text-xs font-semibold text-slate-600">Liability PP payoffs ({ppEvts.length} events)</h4>
-                            <ResponsiveContainer width="100%" height={200}>
-                              <LineChart data={ppEvts.map((e: any, i: number) => ({ idx: i + 1, payoff: parseFloat((e.payoff ?? 0).toFixed(2)), nominal: parseFloat((e.nominalValue ?? 0).toFixed(2)) }))}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                                <XAxis dataKey="idx" tick={{ fontSize: 10 }} stroke="#94a3b8" />
-                                <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" />
-                                <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
-                                <Legend wrapperStyle={{ fontSize: 11 }} />
-                                <Line type="monotone" dataKey="payoff" stroke="#f59e0b" strokeWidth={1.5} dot={false} name="PP Payoff" />
-                                <Line type="monotone" dataKey="nominal" stroke="#3b82f6" strokeWidth={1} dot={false} name="Nominal" />
-                                <ReferenceLine y={0} stroke="#94a3b8" />
-                              </LineChart>
-                            </ResponsiveContainer>
-                          </div>
-                        )
-                      })()}
-                    </>
-                  )}
-                  {!portfolioHistory && !contractEvents && (
+                  {/* ISS charts — derived from real portfolio data */}
+                  {result?.riskFactorData && (() => {
+                    const rf = result.riskFactorData as Record<string, Array<{ time: string; value: number }>>
+                    const days = (rf['SC_BACKING_RATIO'] || []).map((pt: any, i: number) => {
+                      const dk = pt.time.slice(0, 10)
+                      return {
+                        day: i + 1,
+                        date: dk,
+                        bkgRatio: rf['SC_BACKING_RATIO']?.[i]?.value,
+                        liqRatio: rf['SC_LIQUIDITY_RATIO']?.[i]?.value,
+                        cash: rf['SC_CASH_RESERVE']?.[i]?.value,
+                        reserves: rf['SC_TOTAL_RESERVES']?.[i]?.value,
+                        wam: rf['SC_WAM_DAYS']?.[i]?.value,
+                        quality: rf['SC_ASSET_QUALITY_SCORE']?.[i]?.value,
+                      }
+                    })
+                    if (days.length === 0) return null
+                    return (
+                      <>
+                        {/* Chart 1: Reserve Health */}
+                        <div>
+                          <h4 className="mb-1.5 text-xs font-semibold text-slate-600">Reserve Health — Backing Ratio &amp; Liquidity Ratio</h4>
+                          <ResponsiveContainer width="100%" height={220}>
+                            <LineChart data={days}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                              <XAxis dataKey="day" tick={{ fontSize: 10 }} stroke="#94a3b8" />
+                              <YAxis yAxisId="left" tick={{ fontSize: 10 }} stroke="#3b82f6" domain={[0.7, 1.15]} label={{ value: 'Backing', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: '#3b82f6' } }} />
+                              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} stroke="#f97316" domain={[0, 0.7]} label={{ value: 'Liquidity', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: '#f97316' } }} />
+                              <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
+                              <Legend wrapperStyle={{ fontSize: 11 }} />
+                              <ReferenceLine yAxisId="left" y={1.0} stroke="#ef4444" strokeDasharray="6 3" strokeWidth={1.5} label={{ value: 'Backing = 1.0', position: 'right', style: { fontSize: 9, fill: '#ef4444' } }} />
+                              <ReferenceLine yAxisId="right" y={0.2} stroke="#ef4444" strokeDasharray="6 3" strokeWidth={1} label={{ value: 'Liq = 0.2', position: 'right', style: { fontSize: 9, fill: '#ef4444' } }} />
+                              <Line yAxisId="left" type="monotone" dataKey="bkgRatio" stroke="#3b82f6" strokeWidth={2} dot={false} name="Backing Ratio" />
+                              <Line yAxisId="right" type="stepAfter" dataKey="liqRatio" stroke="#f97316" strokeWidth={2} dot={false} name="Liquidity Ratio" />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+
+                        {/* Chart 2: Cash & Reserves */}
+                        <div>
+                          <h4 className="mb-1.5 text-xs font-semibold text-slate-600">Cash &amp; Total Reserves</h4>
+                          <ResponsiveContainer width="100%" height={220}>
+                            <AreaChart data={days}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                              <XAxis dataKey="day" tick={{ fontSize: 10 }} stroke="#94a3b8" />
+                              <YAxis tick={{ fontSize: 10 }} stroke="#94a3b8" tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
+                              <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} formatter={(v: number) => `${v.toLocaleString()}`} />
+                              <Legend wrapperStyle={{ fontSize: 11 }} />
+                              <Area type="stepAfter" dataKey="cash" fill="#22c55e" stroke="#16a34a" fillOpacity={0.5} name="Cash (liquid)" />
+                              <Area type="monotone" dataKey="reserves" fill="#3b82f6" stroke="#2563eb" fillOpacity={0.2} name="Total Reserves" />
+                            </AreaChart>
+                          </ResponsiveContainer>
+                        </div>
+
+                        {/* Chart 3: Compliance — Quality % & WAM */}
+                        <div>
+                          <h4 className="mb-1.5 text-xs font-semibold text-slate-600">Compliance — Asset Quality &amp; WAM</h4>
+                          <ResponsiveContainer width="100%" height={220}>
+                            <LineChart data={days}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                              <XAxis dataKey="day" tick={{ fontSize: 10 }} stroke="#94a3b8" />
+                              <YAxis yAxisId="left" tick={{ fontSize: 10 }} stroke="#10b981" domain={[0, 110]} label={{ value: 'Quality %', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: '#10b981' } }} />
+                              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} stroke="#8b5cf6" domain={[0, 100]} label={{ value: 'WAM days', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: '#8b5cf6' } }} />
+                              <Tooltip contentStyle={{ fontSize: 11, background: '#fff', border: '1px solid #e2e8f0' }} />
+                              <Legend wrapperStyle={{ fontSize: 11 }} />
+                              <ReferenceLine yAxisId="left" y={100} stroke="#ef4444" strokeDasharray="6 3" strokeWidth={1.5} label={{ value: 'Quality = 100', position: 'right', style: { fontSize: 9, fill: '#ef4444' } }} />
+                              <ReferenceLine yAxisId="right" y={93} stroke="#ef4444" strokeDasharray="6 3" strokeWidth={1} label={{ value: 'WAM = 93d', position: 'right', style: { fontSize: 9, fill: '#ef4444' } }} />
+                              <Line yAxisId="left" type="monotone" dataKey="quality" stroke="#10b981" strokeWidth={2} dot={false} name="Quality %" />
+                              <Line yAxisId="right" type="monotone" dataKey="wam" stroke="#8b5cf6" strokeWidth={2} dot={false} name="WAM (days)" />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </>
+                    )
+                  })()}
+                  {!portfolioHistory && !contractEvents && !result?.riskFactorData && (
                     <div className="py-8 text-center text-sm text-slate-400">No chart data</div>
                   )}
                 </div>

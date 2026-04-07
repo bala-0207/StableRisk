@@ -285,7 +285,7 @@ export function VleiPanel() {
           <div>
             <h3 className="text-sm font-bold text-slate-800">vLEI Credential Signing</h3>
             <p className="text-[11px] text-slate-500">
-              Jupiter Seller Agent — Self-Attested Invoice Credential with Digital Signature
+              Stablecoin Issuer — Self-Attested Reserve Attestation Credential with Digital Signature
             </p>
           </div>
         </div>
@@ -356,7 +356,7 @@ export function VleiPanel() {
             <div>
               <p className="text-sm font-medium text-blue-800">
                 {state === "running"
-                  ? "Running Jupiter Seller Credential Signing Workflow..."
+                  ? "Running Stablecoin Issuer Reserve Attestation Signing Workflow..."
                   : "Querying KERIA for existing credentials..."}
               </p>
               <p className="text-[11px] text-blue-600">
@@ -587,10 +587,10 @@ export function VleiPanel() {
         <div className="rounded-lg border border-dashed border-slate-200 p-6 text-center">
           <KeyRound className="mx-auto h-8 w-8 text-slate-300 mb-2" />
           <p className="text-sm text-slate-500">
-            Click <strong>Run vLEI 4C</strong> to trigger the Jupiter Seller credential signing workflow.
+            Click <strong>Run vLEI 4C</strong> to trigger the Stablecoin Issuer reserve attestation credential signing workflow.
           </p>
           <p className="text-[11px] text-slate-400 mt-1">
-            This calls the KERIA server to issue a real self-attested invoice credential
+            This calls the KERIA server to issue a real self-attested reserve attestation credential
             with a cryptographic digital signature. No mocks or fake data.
           </p>
           <p className="text-[11px] text-slate-400 mt-1">

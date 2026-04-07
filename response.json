@@ -1,0 +1,1614 @@
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64374
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "a06133c1-2418-44c8-9acc-76edc1734860",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "248"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_MINIMAL_01\",\n  \"marketObjectCode\": \"MINIMAL_PLACEHOLDER\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:13 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'══════════════════════════════════════════════════════════════════════'
+'PHASE 0: ISS Asset-Only ACTUS Run — Derive portfolio state'
+'══════════════════════════════════════════════════════════════════════'
+'✅ Minimal RI registered'
+POST http://34.203.247.32:8082/addScenario: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64374
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "4d1369d8-384f-4ca0-bfee-5c097f9ac2ab",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "166"
+  },
+  "Request Body": "{\n  \"scenarioID\": \"sc_iss_asset_only\",\n  \"riskFactorDescriptors\": [\n    {\n      \"riskFactorID\": \"ISS_MINIMAL_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "28",
+    "date": "Fri, 27 Mar 2026 17:00:13 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "Scenario added Successfully\n"
+}
+'✅ sc_iss_asset_only: 5 asset contracts, no behavioral models'
+POST http://34.203.247.32:8083/rf2/scenarioSimulation: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64376
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8083
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "61aeb407-d9f5-4a1f-867b-17863c0aaf8d",
+    "host": "34.203.247.32:8083",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3145"
+  },
+  "Request Body": "{\n  \"contracts\": [\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-CashReserve-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"30E360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-01T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-01T00:00:00\",\n      \"maturityDate\": \"2026-04-14T00:00:00\",\n      \"notionalPrincipal\": 5000,\n      \"premiumDiscountAtIED\": 0\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-4W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-15T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-15T00:00:00\",\n      \"maturityDate\": \"2026-03-15T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -200,\n      \"purchaseDate\": \"2026-02-15T00:00:00\",\n      \"priceAtPurchaseDate\": 24800\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-8W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-01T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-01T00:00:00\",\n      \"maturityDate\": \"2026-03-30T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -280,\n      \"purchaseDate\": \"2026-02-01T00:00:00\",\n      \"priceAtPurchaseDate\": 24720\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-13W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-01-15T00:00:00\",\n      \"initialExchangeDate\": \"2026-01-15T00:00:00\",\n      \"maturityDate\": \"2026-04-15T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -350,\n      \"purchaseDate\": \"2026-01-15T00:00:00\",\n      \"priceAtPurchaseDate\": 24650\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-26W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2025-12-15T00:00:00\",\n      \"initialExchangeDate\": \"2025-12-15T00:00:00\",\n      \"maturityDate\": \"2026-06-15T00:00:00\",\n      \"notionalPrincipal\": 23000,\n      \"premiumDiscountAtIED\": -460,\n      \"purchaseDate\": \"2025-12-15T00:00:00\",\n      \"priceAtPurchaseDate\": 22540\n    }\n  ],\n  \"scenarioDescriptor\": {\n    \"scenarioID\": \"sc_iss_asset_only\",\n    \"scenarioType\": \"scenario\"\n  },\n  \"simulateTo\": \"2026-06-15T00:00:00\",\n  \"monitoringTimes\": []\n}",
+  "Response Headers": {
+    "vary": [
+      "Origin",
+      "Access-Control-Request-Method",
+      "Access-Control-Request-Headers"
+    ],
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "[{\"scenarioId\":\"sc_iss_asset_only\",\"contractID\":\"ISS-CashReserve-001\",\"status\":\"Success\",\"message\":\"\",\"events\":[{\"type\":\"IP\",\"time\":\"2026-04-14T00:00\",\"payoff\":0.0,\"currency\":\"USD\",\"nominalValue\":5000.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0},{\"type\":\"MD\",\"time\":\"2026-04-14T00:00\",\"payoff\":5000.0,\"currency\":\"USD\",\"nominalValue\":0.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0}]},{\"scenarioId\":\"sc_iss_asset_only\",\"contractID\":\"ISS-TBill-4W-001\",\"status\":\"Success\",\"message\":\"\",\"events\":[{\"type\":\"IP\",\"time\":\"2026-03-15T00:00\",\"payoff\":0.0,\"currency\":\"USD\",\"nominalValue\":25000.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0},{\"type\":\"MD\",\"time\":\"2026-03-15T00:00\",\"payoff\":25000.0,\"currency\":\"USD\",\"nominalValue\":0.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0}]},{\"scenarioId\":\"sc_iss_asset_only\",\"contractID\":\"ISS-TBill-8W-001\",\"status\":\"Success\",\"message\":\"\",\"events\":[{\"type\":\"IP\",\"time\":\"2026-03-30T00:00\",\"payoff\":0.0,\"currency\":\"USD\",\"nominalValue\":25000.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0},{\"type\":\"MD\",\"time\":\"2026-03-30T00:00\",\"payoff\":25000.0,\"currency\":\"USD\",\"nominalValue\":0.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0}]},{\"scenarioId\":\"sc_iss_asset_only\",\"contractID\":\"ISS-TBill-13W-001\",\"status\":\"Success\",\"message\":\"\",\"events\":[{\"type\":\"IP\",\"time\":\"2026-04-15T00:00\",\"payoff\":0.0,\"currency\":\"USD\",\"nominalValue\":25000.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0},{\"type\":\"MD\",\"time\":\"2026-04-15T00:00\",\"payoff\":25000.0,\"currency\":\"USD\",\"nominalValue\":0.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0}]},{\"scenarioId\":\"sc_iss_asset_only\",\"contractID\":\"ISS-TBill-26W-001\",\"status\":\"Success\",\"message\":\"\",\"events\":[{\"type\":\"IP\",\"time\":\"2026-06-15T00:00\",\"payoff\":0.0,\"currency\":\"USD\",\"nominalValue\":23000.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0},{\"type\":\"MD\",\"time\":\"2026-06-15T00:00\",\"payoff\":23000.0,\"currency\":\"USD\",\"nominalValue\":0.0,\"nominalRate\":0.0,\"nominalAccrued\":0.0}]}]"
+}
+''
+'━ PHASE 0.3: Extracting ACTUS events from 5 ISS asset contracts'
+'  Contracts returned: 5'
+'  ✅ ACTUS MD: ISS-CashReserve-001 matures 2026-04-14'
+'  ISS-CashReserve-001: 2 events (Success)'
+'  ✅ ACTUS MD: ISS-TBill-4W-001 matures 2026-03-15'
+'  ISS-TBill-4W-001: 2 events (Success)'
+'  ✅ ACTUS MD: ISS-TBill-8W-001 matures 2026-03-30'
+'  ISS-TBill-8W-001: 2 events (Success)'
+'  ✅ ACTUS MD: ISS-TBill-13W-001 matures 2026-04-15'
+'  ISS-TBill-13W-001: 2 events (Success)'
+'  ✅ ACTUS MD: ISS-TBill-26W-001 matures 2026-06-15'
+'  ISS-TBill-26W-001: 2 events (Success)'
+''
+'  ━ DERIVED ISS PORTFOLIO STATE (10 indexes from ACTUS events):'
+'  Cash: $5000 → $30000 (Mar 15) → $55000 (Mar 30)'
+'  Reserves: $102315 → $102750'
+'  Backing: 102.3% → 102.8%'
+'  WAM: 47.2d → 44.6d → 44.1d'
+'  Buckets (Mar 1): cash=4.9% short=48.6% med=24.3% long=22.2%'
+'  HQLA: 100 (all L1: US T-bills + FDIC cash)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64374
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "f84a0d6f-92b2-40ec-b1a2-5111dde8c03b",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1517"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_RESERVES_01\",\"marketObjectCode\":\"SC_TOTAL_RESERVES\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":102315},{\"time\":\"2026-03-02T00:00:00\",\"value\":102333},{\"time\":\"2026-03-03T00:00:00\",\"value\":102352},{\"time\":\"2026-03-04T00:00:00\",\"value\":102370},{\"time\":\"2026-03-05T00:00:00\",\"value\":102389},{\"time\":\"2026-03-06T00:00:00\",\"value\":102407},{\"time\":\"2026-03-07T00:00:00\",\"value\":102425},{\"time\":\"2026-03-08T00:00:00\",\"value\":102444},{\"time\":\"2026-03-09T00:00:00\",\"value\":102462},{\"time\":\"2026-03-10T00:00:00\",\"value\":102481},{\"time\":\"2026-03-11T00:00:00\",\"value\":102499},{\"time\":\"2026-03-12T00:00:00\",\"value\":102518},{\"time\":\"2026-03-13T00:00:00\",\"value\":102536},{\"time\":\"2026-03-14T00:00:00\",\"value\":102555},{\"time\":\"2026-03-15T00:00:00\",\"value\":102573},{\"time\":\"2026-03-16T00:00:00\",\"value\":102585},{\"time\":\"2026-03-17T00:00:00\",\"value\":102596},{\"time\":\"2026-03-18T00:00:00\",\"value\":102607},{\"time\":\"2026-03-19T00:00:00\",\"value\":102619},{\"time\":\"2026-03-20T00:00:00\",\"value\":102630},{\"time\":\"2026-03-21T00:00:00\",\"value\":102641},{\"time\":\"2026-03-22T00:00:00\",\"value\":102653},{\"time\":\"2026-03-23T00:00:00\",\"value\":102664},{\"time\":\"2026-03-24T00:00:00\",\"value\":102675},{\"time\":\"2026-03-25T00:00:00\",\"value\":102687},{\"time\":\"2026-03-26T00:00:00\",\"value\":102698},{\"time\":\"2026-03-27T00:00:00\",\"value\":102709},{\"time\":\"2026-03-28T00:00:00\",\"value\":102721},{\"time\":\"2026-03-29T00:00:00\",\"value\":102732},{\"time\":\"2026-03-30T00:00:00\",\"value\":102743},{\"time\":\"2026-03-31T00:00:00\",\"value\":102750}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_RESERVES_01: SC_TOTAL_RESERVES DERIVED (31 points)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64378
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "75c92561-b2e6-4fc3-bf1d-432d2ccfd339",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1466"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_CASH_01\",\"marketObjectCode\":\"SC_CASH_RESERVE\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":5000},{\"time\":\"2026-03-02T00:00:00\",\"value\":5000},{\"time\":\"2026-03-03T00:00:00\",\"value\":5000},{\"time\":\"2026-03-04T00:00:00\",\"value\":5000},{\"time\":\"2026-03-05T00:00:00\",\"value\":5000},{\"time\":\"2026-03-06T00:00:00\",\"value\":5000},{\"time\":\"2026-03-07T00:00:00\",\"value\":5000},{\"time\":\"2026-03-08T00:00:00\",\"value\":5000},{\"time\":\"2026-03-09T00:00:00\",\"value\":5000},{\"time\":\"2026-03-10T00:00:00\",\"value\":5000},{\"time\":\"2026-03-11T00:00:00\",\"value\":5000},{\"time\":\"2026-03-12T00:00:00\",\"value\":5000},{\"time\":\"2026-03-13T00:00:00\",\"value\":5000},{\"time\":\"2026-03-14T00:00:00\",\"value\":5000},{\"time\":\"2026-03-15T00:00:00\",\"value\":30000},{\"time\":\"2026-03-16T00:00:00\",\"value\":30000},{\"time\":\"2026-03-17T00:00:00\",\"value\":30000},{\"time\":\"2026-03-18T00:00:00\",\"value\":30000},{\"time\":\"2026-03-19T00:00:00\",\"value\":30000},{\"time\":\"2026-03-20T00:00:00\",\"value\":30000},{\"time\":\"2026-03-21T00:00:00\",\"value\":30000},{\"time\":\"2026-03-22T00:00:00\",\"value\":30000},{\"time\":\"2026-03-23T00:00:00\",\"value\":30000},{\"time\":\"2026-03-24T00:00:00\",\"value\":30000},{\"time\":\"2026-03-25T00:00:00\",\"value\":30000},{\"time\":\"2026-03-26T00:00:00\",\"value\":30000},{\"time\":\"2026-03-27T00:00:00\",\"value\":30000},{\"time\":\"2026-03-28T00:00:00\",\"value\":30000},{\"time\":\"2026-03-29T00:00:00\",\"value\":30000},{\"time\":\"2026-03-30T00:00:00\",\"value\":55000},{\"time\":\"2026-03-31T00:00:00\",\"value\":55000}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_CASH_01: SC_CASH_RESERVE DERIVED (31 points)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64382
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "4d56688c-ee3d-4758-8aa7-ffcab586f778",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1480"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_BUCKET_4W_01\",\"marketObjectCode\":\"SC_BUCKET_4W_TBILL\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-02T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-03T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-04T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-05T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-06T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-07T00:00:00\",\"value\":0.486},{\"time\":\"2026-03-08T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-09T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-10T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-11T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-12T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-13T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-14T00:00:00\",\"value\":0.487},{\"time\":\"2026-03-15T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-16T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-17T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-18T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-19T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-20T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-21T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-22T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-23T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-24T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-25T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-26T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-27T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-28T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-29T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-30T00:00:00\",\"value\":0},{\"time\":\"2026-03-31T00:00:00\",\"value\":0}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64381
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "fbc7e02d-c971-4c00-ab33-1ed0b34c6e80",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1486"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_BUCKET_CASH_01\",\"marketObjectCode\":\"SC_BUCKET_CASH\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-02T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-03T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-04T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-05T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-06T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-07T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-08T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-09T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-10T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-11T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-12T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-13T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-14T00:00:00\",\"value\":0.049},{\"time\":\"2026-03-15T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-16T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-17T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-18T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-19T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-20T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-21T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-22T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-23T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-24T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-25T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-26T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-27T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-28T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-29T00:00:00\",\"value\":0.292},{\"time\":\"2026-03-30T00:00:00\",\"value\":0.535},{\"time\":\"2026-03-31T00:00:00\",\"value\":0.535}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64383
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "f6c2567b-4962-4ebd-914e-6dad09a0989e",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1490"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_BUCKET_13W_01\",\"marketObjectCode\":\"SC_BUCKET_13W_TBILL\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-02T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-03T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-04T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-05T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-06T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-07T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-08T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-09T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-10T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-11T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-12T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-13T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-14T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-15T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-16T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-17T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-18T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-19T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-20T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-21T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-22T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-23T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-24T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-25T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-26T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-27T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-28T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-29T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-30T00:00:00\",\"value\":0.243},{\"time\":\"2026-03-31T00:00:00\",\"value\":0.243}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64384
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "396595ed-6260-430c-989c-ec0ac0e04d37",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1490"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_BUCKET_26W_01\",\"marketObjectCode\":\"SC_BUCKET_26W_TBILL\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-02T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-03T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-04T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-05T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-06T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-07T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-08T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-09T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-10T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-11T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-12T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-13T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-14T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-15T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-16T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-17T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-18T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-19T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-20T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-21T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-22T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-23T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-24T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-25T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-26T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-27T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-28T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-29T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-30T00:00:00\",\"value\":0.222},{\"time\":\"2026-03-31T00:00:00\",\"value\":0.222}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64385
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "6d8eb64c-102e-4213-8f50-843dff124337",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1416"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_HQLA_01\",\"marketObjectCode\":\"SC_HQLA_SCORE\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":100},{\"time\":\"2026-03-02T00:00:00\",\"value\":100},{\"time\":\"2026-03-03T00:00:00\",\"value\":100},{\"time\":\"2026-03-04T00:00:00\",\"value\":100},{\"time\":\"2026-03-05T00:00:00\",\"value\":100},{\"time\":\"2026-03-06T00:00:00\",\"value\":100},{\"time\":\"2026-03-07T00:00:00\",\"value\":100},{\"time\":\"2026-03-08T00:00:00\",\"value\":100},{\"time\":\"2026-03-09T00:00:00\",\"value\":100},{\"time\":\"2026-03-10T00:00:00\",\"value\":100},{\"time\":\"2026-03-11T00:00:00\",\"value\":100},{\"time\":\"2026-03-12T00:00:00\",\"value\":100},{\"time\":\"2026-03-13T00:00:00\",\"value\":100},{\"time\":\"2026-03-14T00:00:00\",\"value\":100},{\"time\":\"2026-03-15T00:00:00\",\"value\":100},{\"time\":\"2026-03-16T00:00:00\",\"value\":100},{\"time\":\"2026-03-17T00:00:00\",\"value\":100},{\"time\":\"2026-03-18T00:00:00\",\"value\":100},{\"time\":\"2026-03-19T00:00:00\",\"value\":100},{\"time\":\"2026-03-20T00:00:00\",\"value\":100},{\"time\":\"2026-03-21T00:00:00\",\"value\":100},{\"time\":\"2026-03-22T00:00:00\",\"value\":100},{\"time\":\"2026-03-23T00:00:00\",\"value\":100},{\"time\":\"2026-03-24T00:00:00\",\"value\":100},{\"time\":\"2026-03-25T00:00:00\",\"value\":100},{\"time\":\"2026-03-26T00:00:00\",\"value\":100},{\"time\":\"2026-03-27T00:00:00\",\"value\":100},{\"time\":\"2026-03-28T00:00:00\",\"value\":100},{\"time\":\"2026-03-29T00:00:00\",\"value\":100},{\"time\":\"2026-03-30T00:00:00\",\"value\":100},{\"time\":\"2026-03-31T00:00:00\",\"value\":100}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64379
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "8d9fe4c2-4cd5-42eb-a7f8-2f6592699b72",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1512"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_BACKING_01\",\"marketObjectCode\":\"SC_BACKING_RATIO\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":1.0231},{\"time\":\"2026-03-02T00:00:00\",\"value\":1.0233},{\"time\":\"2026-03-03T00:00:00\",\"value\":1.0235},{\"time\":\"2026-03-04T00:00:00\",\"value\":1.0237},{\"time\":\"2026-03-05T00:00:00\",\"value\":1.0239},{\"time\":\"2026-03-06T00:00:00\",\"value\":1.0241},{\"time\":\"2026-03-07T00:00:00\",\"value\":1.0243},{\"time\":\"2026-03-08T00:00:00\",\"value\":1.0244},{\"time\":\"2026-03-09T00:00:00\",\"value\":1.0246},{\"time\":\"2026-03-10T00:00:00\",\"value\":1.0248},{\"time\":\"2026-03-11T00:00:00\",\"value\":1.025},{\"time\":\"2026-03-12T00:00:00\",\"value\":1.0252},{\"time\":\"2026-03-13T00:00:00\",\"value\":1.0254},{\"time\":\"2026-03-14T00:00:00\",\"value\":1.0255},{\"time\":\"2026-03-15T00:00:00\",\"value\":1.0257},{\"time\":\"2026-03-16T00:00:00\",\"value\":1.0258},{\"time\":\"2026-03-17T00:00:00\",\"value\":1.026},{\"time\":\"2026-03-18T00:00:00\",\"value\":1.0261},{\"time\":\"2026-03-19T00:00:00\",\"value\":1.0262},{\"time\":\"2026-03-20T00:00:00\",\"value\":1.0263},{\"time\":\"2026-03-21T00:00:00\",\"value\":1.0264},{\"time\":\"2026-03-22T00:00:00\",\"value\":1.0265},{\"time\":\"2026-03-23T00:00:00\",\"value\":1.0266},{\"time\":\"2026-03-24T00:00:00\",\"value\":1.0268},{\"time\":\"2026-03-25T00:00:00\",\"value\":1.0269},{\"time\":\"2026-03-26T00:00:00\",\"value\":1.027},{\"time\":\"2026-03-27T00:00:00\",\"value\":1.0271},{\"time\":\"2026-03-28T00:00:00\",\"value\":1.0272},{\"time\":\"2026-03-29T00:00:00\",\"value\":1.0273},{\"time\":\"2026-03-30T00:00:00\",\"value\":1.0274},{\"time\":\"2026-03-31T00:00:00\",\"value\":1.0275}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64380
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "2631eee9-6e9b-4dcc-8629-488e434501bf",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1444"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_WAM_01\",\"marketObjectCode\":\"SC_WAM_DAYS\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":47.2},{\"time\":\"2026-03-02T00:00:00\",\"value\":46.2},{\"time\":\"2026-03-03T00:00:00\",\"value\":45.2},{\"time\":\"2026-03-04T00:00:00\",\"value\":44.2},{\"time\":\"2026-03-05T00:00:00\",\"value\":43.2},{\"time\":\"2026-03-06T00:00:00\",\"value\":42.2},{\"time\":\"2026-03-07T00:00:00\",\"value\":41.2},{\"time\":\"2026-03-08T00:00:00\",\"value\":40.2},{\"time\":\"2026-03-09T00:00:00\",\"value\":39.2},{\"time\":\"2026-03-10T00:00:00\",\"value\":38.2},{\"time\":\"2026-03-11T00:00:00\",\"value\":37.2},{\"time\":\"2026-03-12T00:00:00\",\"value\":36.2},{\"time\":\"2026-03-13T00:00:00\",\"value\":35.2},{\"time\":\"2026-03-14T00:00:00\",\"value\":34.2},{\"time\":\"2026-03-15T00:00:00\",\"value\":44.6},{\"time\":\"2026-03-16T00:00:00\",\"value\":43.6},{\"time\":\"2026-03-17T00:00:00\",\"value\":42.6},{\"time\":\"2026-03-18T00:00:00\",\"value\":41.6},{\"time\":\"2026-03-19T00:00:00\",\"value\":40.6},{\"time\":\"2026-03-20T00:00:00\",\"value\":39.6},{\"time\":\"2026-03-21T00:00:00\",\"value\":38.6},{\"time\":\"2026-03-22T00:00:00\",\"value\":37.6},{\"time\":\"2026-03-23T00:00:00\",\"value\":36.6},{\"time\":\"2026-03-24T00:00:00\",\"value\":35.6},{\"time\":\"2026-03-25T00:00:00\",\"value\":34.6},{\"time\":\"2026-03-26T00:00:00\",\"value\":33.6},{\"time\":\"2026-03-27T00:00:00\",\"value\":32.6},{\"time\":\"2026-03-28T00:00:00\",\"value\":31.6},{\"time\":\"2026-03-29T00:00:00\",\"value\":30.6},{\"time\":\"2026-03-30T00:00:00\",\"value\":45.1},{\"time\":\"2026-03-31T00:00:00\",\"value\":44.1}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "2b57528e-2c79-44df-b86d-235ac85b82ed",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1382"
+  },
+  "Request Body": "{\"riskFactorID\":\"ISS_ATTEST_01\",\"marketObjectCode\":\"SC_ATTESTATION_AGE\",\"base\":1,\"data\":[{\"time\":\"2026-03-01T00:00:00\",\"value\":0},{\"time\":\"2026-03-02T00:00:00\",\"value\":1},{\"time\":\"2026-03-03T00:00:00\",\"value\":2},{\"time\":\"2026-03-04T00:00:00\",\"value\":3},{\"time\":\"2026-03-05T00:00:00\",\"value\":4},{\"time\":\"2026-03-06T00:00:00\",\"value\":5},{\"time\":\"2026-03-07T00:00:00\",\"value\":6},{\"time\":\"2026-03-08T00:00:00\",\"value\":7},{\"time\":\"2026-03-09T00:00:00\",\"value\":8},{\"time\":\"2026-03-10T00:00:00\",\"value\":9},{\"time\":\"2026-03-11T00:00:00\",\"value\":10},{\"time\":\"2026-03-12T00:00:00\",\"value\":11},{\"time\":\"2026-03-13T00:00:00\",\"value\":12},{\"time\":\"2026-03-14T00:00:00\",\"value\":13},{\"time\":\"2026-03-15T00:00:00\",\"value\":14},{\"time\":\"2026-03-16T00:00:00\",\"value\":15},{\"time\":\"2026-03-17T00:00:00\",\"value\":16},{\"time\":\"2026-03-18T00:00:00\",\"value\":17},{\"time\":\"2026-03-19T00:00:00\",\"value\":18},{\"time\":\"2026-03-20T00:00:00\",\"value\":19},{\"time\":\"2026-03-21T00:00:00\",\"value\":20},{\"time\":\"2026-03-22T00:00:00\",\"value\":21},{\"time\":\"2026-03-23T00:00:00\",\"value\":22},{\"time\":\"2026-03-24T00:00:00\",\"value\":23},{\"time\":\"2026-03-25T00:00:00\",\"value\":24},{\"time\":\"2026-03-26T00:00:00\",\"value\":25},{\"time\":\"2026-03-27T00:00:00\",\"value\":26},{\"time\":\"2026-03-28T00:00:00\",\"value\":27},{\"time\":\"2026-03-29T00:00:00\",\"value\":28},{\"time\":\"2026-03-30T00:00:00\",\"value\":29},{\"time\":\"2026-03-31T00:00:00\",\"value\":30}]}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:15 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_BUCKET_4W_01: SC_BUCKET_4W_TBILL DERIVED (31 points)'
+'✅ ISS_BUCKET_CASH_01: SC_BUCKET_CASH DERIVED (31 points)'
+'✅ ISS_BUCKET_13W_01: SC_BUCKET_13W_TBILL DERIVED (31 points)'
+'✅ ISS_BUCKET_26W_01: SC_BUCKET_26W_TBILL DERIVED (31 points)'
+'✅ ISS_HQLA_01: SC_HQLA_SCORE DERIVED (31 points)'
+'✅ ISS_BACKING_01: SC_BACKING_RATIO DERIVED (31 points)'
+'✅ ISS_WAM_01: SC_WAM_DAYS DERIVED (31 points)'
+'✅ ISS_ATTEST_01: SC_ATTESTATION_AGE DERIVED (31 points)'
+'  ━ All 10 derived indexes registered'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "5224637f-51f8-402f-8e9a-a808f8d6b828",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3251"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_PEG_DEV_01\",\n  \"marketObjectCode\": \"STABLECOIN_PEG_DEV\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.001\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.002\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.004\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.007\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.012\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.028\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.035\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.042\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.038\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.018\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.012\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.008\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.004\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.002\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.001\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:16 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'━ Phase 1A: 10 DERIVED + PEG_DEV registered'
+'  Derived: SC_TOTAL_RESERVES, SC_CASH_RESERVE, SC_BACKING_RATIO,'
+'           SC_WAM_DAYS, SC_HQLA_SCORE, SC_ATTESTATION_AGE,'
+'           SC_BUCKET_CASH, SC_BUCKET_4W_TBILL, SC_BUCKET_13W_TBILL, SC_BUCKET_26W_TBILL'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "2433cfb1-c6e1-47f9-89c1-a96fa561536b",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3139"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_PEG_RISK_01\",\n  \"marketObjectCode\": \"PEG_RISK_SCORE\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 2\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 4\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 6\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 9\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 12\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 16\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 22\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 30\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 36\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 42\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 46\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 48\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 44\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 38\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 22\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 18\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 14\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 10\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 8\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 6\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 5\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 4\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 3\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 2\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 2\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 1\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 1\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:16 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_PEG_RISK_01: Composite risk (market data)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "4db8afec-19ec-4a87-a680-78260162857a",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3258"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_CURVE_01\",\n  \"marketObjectCode\": \"SC_CURVE_IMBALANCE\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.07\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.14\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.22\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.25\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.28\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.32\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.35\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.25\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.13\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.02\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:16 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_CURVE_01: EW signal 1 (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "8bd773c3-7edc-4eec-b9c4-2823db235d98",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3261"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_ORDERBOOK_01\",\n  \"marketObjectCode\": \"SC_ORDERBOOK_DECLINE\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.2\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.25\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.35\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.42\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.48\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.52\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.55\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.4\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.22\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.14\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.05\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:17 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_ORDERBOOK_01: EW signal 2 (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "bdb91885-f837-423d-afda-c700af8dd0a7",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3215"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_CEX_01\",\n  \"marketObjectCode\": \"SC_CEX_OUTFLOW_MULT\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 1.1\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 1.1\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 1.2\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 1.3\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 1.5\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 1.8\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 2.0\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 2.2\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 2.5\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 2.8\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 3.2\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 3.8\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 2.5\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 1.8\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 1.5\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 1.3\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 1.2\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 1.1\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 1.1\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 1.0\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 1.0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:17 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_CEX_01: EW signal 3 (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "449152fd-4c3d-43b0-a85f-847e22e2367c",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3232"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_SENT_01\",\n  \"marketObjectCode\": \"SC_SENTIMENT_ZSCORE\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": -0.2\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": -0.5\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": -0.8\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": -1.0\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": -1.2\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": -1.5\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": -1.7\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": -1.9\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": -2.2\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": -2.5\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": -1.8\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": -1.2\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": -0.8\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": -0.5\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": -0.3\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": -0.1\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.0\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.2\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.4\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.4\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.4\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.5\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:17 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_SENT_01: EW signal 4 (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "a931ca4a-5e59-419d-a7af-74177c690805",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3255"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_BANK_01\",\n  \"marketObjectCode\": \"BANK_STRESS_INDEX\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.22\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.28\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.35\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.42\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.48\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.52\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.55\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.45\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.35\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.28\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.22\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.07\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.05\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:18 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_BANK_01: Bank stress (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "53f1a2ca-2e69-414b-aa64-5cbbda1917e7",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3258"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_SOV_01\",\n  \"marketObjectCode\": \"US_SOVEREIGN_STRESS\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.13\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.14\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.03\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.02\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.02\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:18 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_SOV_01: Sovereign CDS (market)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "d9d8fa10-bb33-4c7a-8ea9-4db93c3b042d",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3426"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_BRISK_01\",\n  \"marketObjectCode\": \"SC_BACKING_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.010000000000000009\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.07500000000000007\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.1250000000000001\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.16000000000000014\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.19000000000000017\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.2100000000000002\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.2250000000000002\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.2350000000000002\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.17500000000000016\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.20000000000000018\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.2200000000000002\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.19000000000000017\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.15000000000000013\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.1250000000000001\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.09000000000000008\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.050000000000000044\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.025000000000000022\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:18 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_BRISK_01: CA signal: backing (scenario)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "0379ef69-8358-4c11-9cb8-a3e794023306",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3255"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_LRISK_01\",\n  \"marketObjectCode\": \"SC_LIQUIDITY_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.22\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.28\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.35\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.45\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.52\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.58\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.62\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.65\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.6\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.55\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.3\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.25\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.2\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.18\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.07\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.05\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.05\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:19 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_LRISK_01: CA signal: liquidity (scenario)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "36919e7b-8bba-4d3b-b80f-1eccd2c2ea42",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3268"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_QRISK_01\",\n  \"marketObjectCode\": \"SC_QUALITY_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.035714285714285705\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.08571428571428572\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.1285714285714286\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.15714285714285717\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.17857142857142863\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.14285714285714288\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.10714285714285716\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.035714285714285705\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:19 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_QRISK_01: CA signal: quality (scenario)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "85f9623c-ffca-499c-a538-9ad8f6973bff",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3264"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_CRISK_01\",\n  \"marketObjectCode\": \"SC_CONCENTRATION_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.15\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.15\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:19 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_CRISK_01: CA signal: concentration (scenario)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "f215c96a-07b7-4ec0-904a-055a72a9cef5",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3217"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_CPRISK_01\",\n  \"marketObjectCode\": \"SC_COMPLIANCE_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.1\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:20 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_CPRISK_01: CA signal: compliance (scenario)'
+POST http://34.203.247.32:8082/addReferenceIndex: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "852968bb-6a33-402d-9e22-94286c8a1638",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3257"
+  },
+  "Request Body": "{\n  \"riskFactorID\": \"ISS_EWRISK_01\",\n  \"marketObjectCode\": \"SC_EARLYWARNING_RISK\",\n  \"base\": 1.0,\n  \"data\": [\n    {\n      \"time\": \"2026-03-01T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-02T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-03T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-04T00:00:00\",\n      \"value\": 0.1\n    },\n    {\n      \"time\": \"2026-03-05T00:00:00\",\n      \"value\": 0.14\n    },\n    {\n      \"time\": \"2026-03-06T00:00:00\",\n      \"value\": 0.2\n    },\n    {\n      \"time\": \"2026-03-07T00:00:00\",\n      \"value\": 0.28\n    },\n    {\n      \"time\": \"2026-03-08T00:00:00\",\n      \"value\": 0.36\n    },\n    {\n      \"time\": \"2026-03-09T00:00:00\",\n      \"value\": 0.44\n    },\n    {\n      \"time\": \"2026-03-10T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-11T00:00:00\",\n      \"value\": 0.56\n    },\n    {\n      \"time\": \"2026-03-12T00:00:00\",\n      \"value\": 0.6\n    },\n    {\n      \"time\": \"2026-03-13T00:00:00\",\n      \"value\": 0.64\n    },\n    {\n      \"time\": \"2026-03-14T00:00:00\",\n      \"value\": 0.7\n    },\n    {\n      \"time\": \"2026-03-15T00:00:00\",\n      \"value\": 0.5\n    },\n    {\n      \"time\": \"2026-03-16T00:00:00\",\n      \"value\": 0.36\n    },\n    {\n      \"time\": \"2026-03-17T00:00:00\",\n      \"value\": 0.26\n    },\n    {\n      \"time\": \"2026-03-18T00:00:00\",\n      \"value\": 0.2\n    },\n    {\n      \"time\": \"2026-03-19T00:00:00\",\n      \"value\": 0.16\n    },\n    {\n      \"time\": \"2026-03-20T00:00:00\",\n      \"value\": 0.12\n    },\n    {\n      \"time\": \"2026-03-21T00:00:00\",\n      \"value\": 0.08\n    },\n    {\n      \"time\": \"2026-03-22T00:00:00\",\n      \"value\": 0.06\n    },\n    {\n      \"time\": \"2026-03-23T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-24T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-25T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-26T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-27T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-28T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-29T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-30T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-03-31T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-01T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-02T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-03T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-04T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-05T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-06T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-07T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-08T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-09T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-10T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-11T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-12T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-13T00:00:00\",\n      \"value\": 0.04\n    },\n    {\n      \"time\": \"2026-04-14T00:00:00\",\n      \"value\": 0.04\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "34",
+    "date": "Fri, 27 Mar 2026 17:00:20 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ReferenceIndex added Successfully\n"
+}
+'✅ ISS_EWRISK_01: CA signal: early warning (scenario)'
+POST http://34.203.247.32:8082/addBackingRatioModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "bc1f5f87-13ad-4ca4-ab4f-a0e158f09897",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1418"
+  },
+  "Request Body": "{\n  \"riskFactorId\": \"br_iss_01\",\n  \"totalReservesMOC\": \"SC_TOTAL_RESERVES\",\n  \"cashReserveMOC\": \"SC_CASH_RESERVE\",\n  \"backingThreshold\": 1.0,\n  \"liquidityThreshold\": 0.2,\n  \"monitoringEventTimes\": [\n    \"2026-03-01T00:00:00\",\n    \"2026-03-02T00:00:00\",\n    \"2026-03-03T00:00:00\",\n    \"2026-03-04T00:00:00\",\n    \"2026-03-05T00:00:00\",\n    \"2026-03-06T00:00:00\",\n    \"2026-03-07T00:00:00\",\n    \"2026-03-08T00:00:00\",\n    \"2026-03-09T00:00:00\",\n    \"2026-03-10T00:00:00\",\n    \"2026-03-11T00:00:00\",\n    \"2026-03-12T00:00:00\",\n    \"2026-03-13T00:00:00\",\n    \"2026-03-14T00:00:00\",\n    \"2026-03-15T00:00:00\",\n    \"2026-03-16T00:00:00\",\n    \"2026-03-17T00:00:00\",\n    \"2026-03-18T00:00:00\",\n    \"2026-03-19T00:00:00\",\n    \"2026-03-20T00:00:00\",\n    \"2026-03-21T00:00:00\",\n    \"2026-03-22T00:00:00\",\n    \"2026-03-23T00:00:00\",\n    \"2026-03-24T00:00:00\",\n    \"2026-03-25T00:00:00\",\n    \"2026-03-26T00:00:00\",\n    \"2026-03-27T00:00:00\",\n    \"2026-03-28T00:00:00\",\n    \"2026-03-29T00:00:00\",\n    \"2026-03-30T00:00:00\",\n    \"2026-03-31T00:00:00\",\n    \"2026-04-01T00:00:00\",\n    \"2026-04-02T00:00:00\",\n    \"2026-04-03T00:00:00\",\n    \"2026-04-04T00:00:00\",\n    \"2026-04-05T00:00:00\",\n    \"2026-04-06T00:00:00\",\n    \"2026-04-07T00:00:00\",\n    \"2026-04-08T00:00:00\",\n    \"2026-04-09T00:00:00\",\n    \"2026-04-10T00:00:00\",\n    \"2026-04-11T00:00:00\",\n    \"2026-04-12T00:00:00\",\n    \"2026-04-13T00:00:00\",\n    \"2026-04-14T00:00:00\"\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "37",
+    "date": "Fri, 27 Mar 2026 17:00:20 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "BackingRatioModel added successfully\n"
+}
+'✅ br_iss_01: BackingRatioModel (reads DERIVED reserves + cash)'
+POST http://34.203.247.32:8082/addComplianceDriftModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "2acc9c05-d250-4ae7-9206-698cb9914414",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1536"
+  },
+  "Request Body": "{\n  \"riskFactorId\": \"cp_iss_01\",\n  \"backingRatioMOC\": \"SC_BACKING_RATIO\",\n  \"wamDaysMOC\": \"SC_WAM_DAYS\",\n  \"hqlaScoreMOC\": \"SC_HQLA_SCORE\",\n  \"attestationAgeMOC\": \"SC_ATTESTATION_AGE\",\n  \"backingThreshold\": 1.0,\n  \"wamMaxDays\": 93.0,\n  \"hqlaMinScore\": 100.0,\n  \"attestationMaxDays\": 30.0,\n  \"monitoringEventTimes\": [\n    \"2026-03-01T00:00:00\",\n    \"2026-03-02T00:00:00\",\n    \"2026-03-03T00:00:00\",\n    \"2026-03-04T00:00:00\",\n    \"2026-03-05T00:00:00\",\n    \"2026-03-06T00:00:00\",\n    \"2026-03-07T00:00:00\",\n    \"2026-03-08T00:00:00\",\n    \"2026-03-09T00:00:00\",\n    \"2026-03-10T00:00:00\",\n    \"2026-03-11T00:00:00\",\n    \"2026-03-12T00:00:00\",\n    \"2026-03-13T00:00:00\",\n    \"2026-03-14T00:00:00\",\n    \"2026-03-15T00:00:00\",\n    \"2026-03-16T00:00:00\",\n    \"2026-03-17T00:00:00\",\n    \"2026-03-18T00:00:00\",\n    \"2026-03-19T00:00:00\",\n    \"2026-03-20T00:00:00\",\n    \"2026-03-21T00:00:00\",\n    \"2026-03-22T00:00:00\",\n    \"2026-03-23T00:00:00\",\n    \"2026-03-24T00:00:00\",\n    \"2026-03-25T00:00:00\",\n    \"2026-03-26T00:00:00\",\n    \"2026-03-27T00:00:00\",\n    \"2026-03-28T00:00:00\",\n    \"2026-03-29T00:00:00\",\n    \"2026-03-30T00:00:00\",\n    \"2026-03-31T00:00:00\",\n    \"2026-04-01T00:00:00\",\n    \"2026-04-02T00:00:00\",\n    \"2026-04-03T00:00:00\",\n    \"2026-04-04T00:00:00\",\n    \"2026-04-05T00:00:00\",\n    \"2026-04-06T00:00:00\",\n    \"2026-04-07T00:00:00\",\n    \"2026-04-08T00:00:00\",\n    \"2026-04-09T00:00:00\",\n    \"2026-04-10T00:00:00\",\n    \"2026-04-11T00:00:00\",\n    \"2026-04-12T00:00:00\",\n    \"2026-04-13T00:00:00\",\n    \"2026-04-14T00:00:00\"\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "40",
+    "date": "Fri, 27 Mar 2026 17:00:21 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ComplianceDriftModel added successfully\n"
+}
+'✅ cp_iss_01: ComplianceDriftModel (reads DERIVED backing+WAM+HQLA+attest)'
+POST http://34.203.247.32:8082/addAssetQualityModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "922790b9-9a45-472e-9ee6-4cdf7d886648",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1267"
+  },
+  "Request Body": "{\"riskFactorId\":\"aq_iss_01\",\"bankStressIndexMOC\":\"BANK_STRESS_INDEX\",\"sovereignStressMOC\":\"US_SOVEREIGN_STRESS\",\"bankStressThreshold\":0.5,\"baseQuality\":100.0,\"qualityFloor\":50.0,\"sovereignMaxDegradation\":0.3,\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"],\"strictMode\":true,\"hqlaMOC\":\"SC_HQLA_SCORE\"}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "37",
+    "date": "Fri, 27 Mar 2026 17:00:21 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "AssetQualityModel added successfully\n"
+}
+'✅ aq_iss_01: AssetQualityModel (reads market: bank+sovereign stress)'
+POST http://34.203.247.32:8082/addMaturityLadderModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "50dfb362-7734-4f7a-b7ed-9496339292aa",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1319"
+  },
+  "Request Body": "{\n  \"riskFactorId\": \"ml_iss_01\",\n  \"pegRiskScoreMOC\": \"PEG_RISK_SCORE\",\n  \"monitoringEventTimes\": [\n    \"2026-03-01T00:00:00\",\n    \"2026-03-02T00:00:00\",\n    \"2026-03-03T00:00:00\",\n    \"2026-03-04T00:00:00\",\n    \"2026-03-05T00:00:00\",\n    \"2026-03-06T00:00:00\",\n    \"2026-03-07T00:00:00\",\n    \"2026-03-08T00:00:00\",\n    \"2026-03-09T00:00:00\",\n    \"2026-03-10T00:00:00\",\n    \"2026-03-11T00:00:00\",\n    \"2026-03-12T00:00:00\",\n    \"2026-03-13T00:00:00\",\n    \"2026-03-14T00:00:00\",\n    \"2026-03-15T00:00:00\",\n    \"2026-03-16T00:00:00\",\n    \"2026-03-17T00:00:00\",\n    \"2026-03-18T00:00:00\",\n    \"2026-03-19T00:00:00\",\n    \"2026-03-20T00:00:00\",\n    \"2026-03-21T00:00:00\",\n    \"2026-03-22T00:00:00\",\n    \"2026-03-23T00:00:00\",\n    \"2026-03-24T00:00:00\",\n    \"2026-03-25T00:00:00\",\n    \"2026-03-26T00:00:00\",\n    \"2026-03-27T00:00:00\",\n    \"2026-03-28T00:00:00\",\n    \"2026-03-29T00:00:00\",\n    \"2026-03-30T00:00:00\",\n    \"2026-03-31T00:00:00\",\n    \"2026-04-01T00:00:00\",\n    \"2026-04-02T00:00:00\",\n    \"2026-04-03T00:00:00\",\n    \"2026-04-04T00:00:00\",\n    \"2026-04-05T00:00:00\",\n    \"2026-04-06T00:00:00\",\n    \"2026-04-07T00:00:00\",\n    \"2026-04-08T00:00:00\",\n    \"2026-04-09T00:00:00\",\n    \"2026-04-10T00:00:00\",\n    \"2026-04-11T00:00:00\",\n    \"2026-04-12T00:00:00\",\n    \"2026-04-13T00:00:00\",\n    \"2026-04-14T00:00:00\"\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "39",
+    "date": "Fri, 27 Mar 2026 17:00:21 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "MaturityLadderModel added successfully\n"
+}
+'✅ ml_iss_01: MaturityLadderModel (reads PEG_RISK_SCORE)'
+POST http://34.203.247.32:8082/addConcentrationDriftModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "d5760de7-42fb-44bf-9293-6a0ed8e9f96b",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1470"
+  },
+  "Request Body": "{\n  \"riskFactorId\": \"cd_iss_01\",\n  \"assetBucketMOCs\": [\n    \"SC_BUCKET_CASH\",\n    \"SC_BUCKET_4W_TBILL\",\n    \"SC_BUCKET_13W_TBILL\",\n    \"SC_BUCKET_26W_TBILL\"\n  ],\n  \"maxSingleAssetShare\": 0.4,\n  \"hhiWarningThreshold\": 0.35,\n  \"monitoringEventTimes\": [\n    \"2026-03-01T00:00:00\",\n    \"2026-03-02T00:00:00\",\n    \"2026-03-03T00:00:00\",\n    \"2026-03-04T00:00:00\",\n    \"2026-03-05T00:00:00\",\n    \"2026-03-06T00:00:00\",\n    \"2026-03-07T00:00:00\",\n    \"2026-03-08T00:00:00\",\n    \"2026-03-09T00:00:00\",\n    \"2026-03-10T00:00:00\",\n    \"2026-03-11T00:00:00\",\n    \"2026-03-12T00:00:00\",\n    \"2026-03-13T00:00:00\",\n    \"2026-03-14T00:00:00\",\n    \"2026-03-15T00:00:00\",\n    \"2026-03-16T00:00:00\",\n    \"2026-03-17T00:00:00\",\n    \"2026-03-18T00:00:00\",\n    \"2026-03-19T00:00:00\",\n    \"2026-03-20T00:00:00\",\n    \"2026-03-21T00:00:00\",\n    \"2026-03-22T00:00:00\",\n    \"2026-03-23T00:00:00\",\n    \"2026-03-24T00:00:00\",\n    \"2026-03-25T00:00:00\",\n    \"2026-03-26T00:00:00\",\n    \"2026-03-27T00:00:00\",\n    \"2026-03-28T00:00:00\",\n    \"2026-03-29T00:00:00\",\n    \"2026-03-30T00:00:00\",\n    \"2026-03-31T00:00:00\",\n    \"2026-04-01T00:00:00\",\n    \"2026-04-02T00:00:00\",\n    \"2026-04-03T00:00:00\",\n    \"2026-04-04T00:00:00\",\n    \"2026-04-05T00:00:00\",\n    \"2026-04-06T00:00:00\",\n    \"2026-04-07T00:00:00\",\n    \"2026-04-08T00:00:00\",\n    \"2026-04-09T00:00:00\",\n    \"2026-04-10T00:00:00\",\n    \"2026-04-11T00:00:00\",\n    \"2026-04-12T00:00:00\",\n    \"2026-04-13T00:00:00\",\n    \"2026-04-14T00:00:00\"\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "43",
+    "date": "Fri, 27 Mar 2026 17:00:23 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ConcentrationDriftModel added successfully\n"
+}
+'✅ cd_iss_01: ConcentrationDriftModel (reads DERIVED bucket shares)'
+POST http://34.203.247.32:8082/addContinuousAttestationModel: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "e1904304-e3ae-4045-b23c-d31b1a24a9a4",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "1546"
+  },
+  "Request Body": "{\n  \"riskFactorId\": \"ca_iss_01\",\n  \"backingRiskMOC\": \"SC_BACKING_RISK\",\n  \"liquidityRiskMOC\": \"SC_LIQUIDITY_RISK\",\n  \"qualityRiskMOC\": \"SC_QUALITY_RISK\",\n  \"concentrationRiskMOC\": \"SC_CONCENTRATION_RISK\",\n  \"complianceRiskMOC\": \"SC_COMPLIANCE_RISK\",\n  \"earlyWarningRiskMOC\": \"SC_EARLYWARNING_RISK\",\n  \"monitoringEventTimes\": [\n    \"2026-03-01T00:00:00\",\n    \"2026-03-02T00:00:00\",\n    \"2026-03-03T00:00:00\",\n    \"2026-03-04T00:00:00\",\n    \"2026-03-05T00:00:00\",\n    \"2026-03-06T00:00:00\",\n    \"2026-03-07T00:00:00\",\n    \"2026-03-08T00:00:00\",\n    \"2026-03-09T00:00:00\",\n    \"2026-03-10T00:00:00\",\n    \"2026-03-11T00:00:00\",\n    \"2026-03-12T00:00:00\",\n    \"2026-03-13T00:00:00\",\n    \"2026-03-14T00:00:00\",\n    \"2026-03-15T00:00:00\",\n    \"2026-03-16T00:00:00\",\n    \"2026-03-17T00:00:00\",\n    \"2026-03-18T00:00:00\",\n    \"2026-03-19T00:00:00\",\n    \"2026-03-20T00:00:00\",\n    \"2026-03-21T00:00:00\",\n    \"2026-03-22T00:00:00\",\n    \"2026-03-23T00:00:00\",\n    \"2026-03-24T00:00:00\",\n    \"2026-03-25T00:00:00\",\n    \"2026-03-26T00:00:00\",\n    \"2026-03-27T00:00:00\",\n    \"2026-03-28T00:00:00\",\n    \"2026-03-29T00:00:00\",\n    \"2026-03-30T00:00:00\",\n    \"2026-03-31T00:00:00\",\n    \"2026-04-01T00:00:00\",\n    \"2026-04-02T00:00:00\",\n    \"2026-04-03T00:00:00\",\n    \"2026-04-04T00:00:00\",\n    \"2026-04-05T00:00:00\",\n    \"2026-04-06T00:00:00\",\n    \"2026-04-07T00:00:00\",\n    \"2026-04-08T00:00:00\",\n    \"2026-04-09T00:00:00\",\n    \"2026-04-10T00:00:00\",\n    \"2026-04-11T00:00:00\",\n    \"2026-04-12T00:00:00\",\n    \"2026-04-13T00:00:00\",\n    \"2026-04-14T00:00:00\"\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "46",
+    "date": "Fri, 27 Mar 2026 17:00:23 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "ContinuousAttestationModel added successfully\n"
+}
+'✅ ca_iss_01: ContinuousAttestationModel (6 risk signals)'
+POST http://34.203.247.32:8082/addScenario: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "4a928224-d52a-4a9e-a8ab-c2574a4f8ae8",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "2880"
+  },
+  "Request Body": "{\n  \"scenarioID\": \"sc_iss_ht_daily_01\",\n  \"riskFactorDescriptors\": [\n    {\n      \"riskFactorID\": \"ISS_RESERVES_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_CASH_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_PEG_DEV_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_PEG_RISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_CURVE_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_ORDERBOOK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_CEX_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_SENT_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BANK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_SOV_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BACKING_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_WAM_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_HQLA_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_ATTEST_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BUCKET_CASH_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BUCKET_4W_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BUCKET_13W_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BUCKET_26W_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_BRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_LRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_QRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_CRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_CPRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"ISS_EWRISK_01\",\n      \"riskFactorType\": \"ReferenceIndex\"\n    },\n    {\n      \"riskFactorID\": \"br_iss_01\",\n      \"riskFactorType\": \"BackingRatioModel\"\n    },\n    {\n      \"riskFactorID\": \"cp_iss_01\",\n      \"riskFactorType\": \"ComplianceDriftModel\"\n    },\n    {\n      \"riskFactorID\": \"aq_iss_01\",\n      \"riskFactorType\": \"AssetQualityModel\"\n    },\n    {\n      \"riskFactorID\": \"ml_iss_01\",\n      \"riskFactorType\": \"MaturityLadderModel\"\n    },\n    {\n      \"riskFactorID\": \"cd_iss_01\",\n      \"riskFactorType\": \"ConcentrationDriftModel\"\n    },\n    {\n      \"riskFactorID\": \"ca_iss_01\",\n      \"riskFactorType\": \"ContinuousAttestationModel\"\n    }\n  ]\n}",
+  "Response Headers": {
+    "content-type": "text/plain;charset=UTF-8",
+    "content-length": "28",
+    "date": "Fri, 27 Mar 2026 17:00:23 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "Scenario added Successfully\n"
+}
+'✅ sc_iss_ht_daily_01: 24 RI (10 DERIVED + 14 market/scenario) + 6 BH = 30 descriptors'
+GET http://34.203.247.32:8082/findBackingRatioModel/br_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "6097b974-1b66-4651-986c-383234c15676",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:24 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"br_iss_01\",\"totalReservesMOC\":\"SC_TOTAL_RESERVES\",\"cashReserveMOC\":\"SC_CASH_RESERVE\",\"backingThreshold\":1.0,\"liquidityThreshold\":0.2,\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ br_iss_01: backing=1'
+GET http://34.203.247.32:8082/findComplianceDriftModel/cp_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "02910bbe-21fc-4457-b757-f45ec38d27c1",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:24 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"cp_iss_01\",\"backingRatioMOC\":\"SC_BACKING_RATIO\",\"wamDaysMOC\":\"SC_WAM_DAYS\",\"hqlaScoreMOC\":\"SC_HQLA_SCORE\",\"attestationAgeMOC\":\"SC_ATTESTATION_AGE\",\"backingThreshold\":1.0,\"wamMaxDays\":93.0,\"hqlaMinScore\":100.0,\"attestationMaxDays\":30.0,\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ cp_iss_01: wamMax=93'
+GET http://34.203.247.32:8082/findAssetQualityModel/aq_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "b139c867-c33f-4236-af33-a91051821581",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:24 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"aq_iss_01\",\"bankStressIndexMOC\":\"BANK_STRESS_INDEX\",\"sovereignStressMOC\":\"US_SOVEREIGN_STRESS\",\"bankStressThreshold\":0.5,\"baseQuality\":100.0,\"qualityFloor\":50.0,\"sovereignMaxDegradation\":0.3,\"strictMode\":true,\"hqlaMOC\":\"SC_HQLA_SCORE\",\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ aq_iss_01: bankThresh=0.5'
+GET http://34.203.247.32:8082/findMaturityLadderModel/ml_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "7b715a23-42fb-443d-bed3-26187d104301",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:25 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"ml_iss_01\",\"pegRiskScoreMOC\":\"PEG_RISK_SCORE\",\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ ml_iss_01: pegRiskScoreMOC=PEG_RISK_SCORE'
+GET http://34.203.247.32:8082/findConcentrationDriftModel/cd_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "3ec07e39-1faf-4aec-ab94-79810511714d",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:25 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"cd_iss_01\",\"assetBucketMOCs\":[\"SC_BUCKET_CASH\",\"SC_BUCKET_4W_TBILL\",\"SC_BUCKET_13W_TBILL\",\"SC_BUCKET_26W_TBILL\"],\"custodianBucketMOCs\":null,\"maxSingleAssetShare\":0.4,\"hhiWarningThreshold\":0.35,\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ cd_iss_01: maxShare=0.4'
+GET http://34.203.247.32:8082/findContinuousAttestationModel/ca_iss_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "d46dafbb-75d3-466b-9e42-78719fe7dd7a",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:25 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"riskFactorId\":\"ca_iss_01\",\"backingRiskMOC\":\"SC_BACKING_RISK\",\"liquidityRiskMOC\":\"SC_LIQUIDITY_RISK\",\"qualityRiskMOC\":\"SC_QUALITY_RISK\",\"concentrationRiskMOC\":\"SC_CONCENTRATION_RISK\",\"complianceRiskMOC\":\"SC_COMPLIANCE_RISK\",\"earlyWarningRiskMOC\":\"SC_EARLYWARNING_RISK\",\"monitoringEventTimes\":[\"2026-03-01T00:00:00\",\"2026-03-02T00:00:00\",\"2026-03-03T00:00:00\",\"2026-03-04T00:00:00\",\"2026-03-05T00:00:00\",\"2026-03-06T00:00:00\",\"2026-03-07T00:00:00\",\"2026-03-08T00:00:00\",\"2026-03-09T00:00:00\",\"2026-03-10T00:00:00\",\"2026-03-11T00:00:00\",\"2026-03-12T00:00:00\",\"2026-03-13T00:00:00\",\"2026-03-14T00:00:00\",\"2026-03-15T00:00:00\",\"2026-03-16T00:00:00\",\"2026-03-17T00:00:00\",\"2026-03-18T00:00:00\",\"2026-03-19T00:00:00\",\"2026-03-20T00:00:00\",\"2026-03-21T00:00:00\",\"2026-03-22T00:00:00\",\"2026-03-23T00:00:00\",\"2026-03-24T00:00:00\",\"2026-03-25T00:00:00\",\"2026-03-26T00:00:00\",\"2026-03-27T00:00:00\",\"2026-03-28T00:00:00\",\"2026-03-29T00:00:00\",\"2026-03-30T00:00:00\",\"2026-03-31T00:00:00\",\"2026-04-01T00:00:00\",\"2026-04-02T00:00:00\",\"2026-04-03T00:00:00\",\"2026-04-04T00:00:00\",\"2026-04-05T00:00:00\",\"2026-04-06T00:00:00\",\"2026-04-07T00:00:00\",\"2026-04-08T00:00:00\",\"2026-04-09T00:00:00\",\"2026-04-10T00:00:00\",\"2026-04-11T00:00:00\",\"2026-04-12T00:00:00\",\"2026-04-13T00:00:00\",\"2026-04-14T00:00:00\"]}"
+}
+'✅ ca_iss_01: 6 risk MOCs wired'
+GET http://34.203.247.32:8082/findScenario/sc_iss_ht_daily_01: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64386
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8082
+      }
+    }
+  },
+  "Request Headers": {
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "3ff22b94-afbc-41c4-a92d-c1d745f6e228",
+    "host": "34.203.247.32:8082",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive"
+  },
+  "Response Headers": {
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:26 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "{\"scenarioID\":\"sc_iss_ht_daily_01\",\"riskFactorDescriptors\":[{\"riskFactorID\":\"ISS_RESERVES_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_CASH_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_PEG_DEV_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_PEG_RISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_CURVE_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_ORDERBOOK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_CEX_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_SENT_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BANK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_SOV_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BACKING_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_WAM_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_HQLA_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_ATTEST_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BUCKET_CASH_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BUCKET_4W_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BUCKET_13W_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BUCKET_26W_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_BRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_LRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_QRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_CRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_CPRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"ISS_EWRISK_01\",\"riskFactorType\":\"ReferenceIndex\"},{\"riskFactorID\":\"br_iss_01\",\"riskFactorType\":\"BackingRatioModel\"},{\"riskFactorID\":\"cp_iss_01\",\"riskFactorType\":\"ComplianceDriftModel\"},{\"riskFactorID\":\"aq_iss_01\",\"riskFactorType\":\"AssetQualityModel\"},{\"riskFactorID\":\"ml_iss_01\",\"riskFactorType\":\"MaturityLadderModel\"},{\"riskFactorID\":\"cd_iss_01\",\"riskFactorType\":\"ConcentrationDriftModel\"},{\"riskFactorID\":\"ca_iss_01\",\"riskFactorType\":\"ContinuousAttestationModel\"}]}"
+}
+'✅ Scenario: 30 descriptors'
+POST http://34.203.247.32:8083/rf2/scenarioSimulation: {
+  "Network": {
+    "addresses": {
+      "local": {
+        "address": "192.168.0.106",
+        "family": "IPv4",
+        "port": 64376
+      },
+      "remote": {
+        "address": "34.203.247.32",
+        "family": "IPv4",
+        "port": 8083
+      }
+    }
+  },
+  "Request Headers": {
+    "content-type": "application/json",
+    "user-agent": "PostmanRuntime/7.51.1",
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "postman-token": "ae0bf0bd-e1e0-41f6-91fc-112c9a40c295",
+    "host": "34.203.247.32:8083",
+    "accept-encoding": "gzip, deflate, br",
+    "connection": "keep-alive",
+    "content-length": "3948"
+  },
+  "Request Body": "{\n  \"contracts\": [\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-CashReserve-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"30E360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-01T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-01T00:00:00\",\n      \"maturityDate\": \"2026-04-14T00:00:00\",\n      \"notionalPrincipal\": 5000,\n      \"premiumDiscountAtIED\": 0\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-4W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-15T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-15T00:00:00\",\n      \"maturityDate\": \"2026-03-15T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -200,\n      \"purchaseDate\": \"2026-02-15T00:00:00\",\n      \"priceAtPurchaseDate\": 24800\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-8W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-01T00:00:00\",\n      \"initialExchangeDate\": \"2026-02-01T00:00:00\",\n      \"maturityDate\": \"2026-03-30T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -280,\n      \"purchaseDate\": \"2026-02-01T00:00:00\",\n      \"priceAtPurchaseDate\": 24720\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-13W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-01-15T00:00:00\",\n      \"initialExchangeDate\": \"2026-01-15T00:00:00\",\n      \"maturityDate\": \"2026-04-15T00:00:00\",\n      \"notionalPrincipal\": 25000,\n      \"premiumDiscountAtIED\": -350,\n      \"purchaseDate\": \"2026-01-15T00:00:00\",\n      \"priceAtPurchaseDate\": 24650\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-TBill-26W-001\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"A360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2025-12-15T00:00:00\",\n      \"initialExchangeDate\": \"2025-12-15T00:00:00\",\n      \"maturityDate\": \"2026-06-15T00:00:00\",\n      \"notionalPrincipal\": 23000,\n      \"premiumDiscountAtIED\": -460,\n      \"purchaseDate\": \"2025-12-15T00:00:00\",\n      \"priceAtPurchaseDate\": 22540\n    },\n    {\n      \"calendar\": \"NC\",\n      \"businessDayConvention\": \"SCF\",\n      \"contractType\": \"PAM\",\n      \"statusDate\": \"2026-02-28T00:00:00\",\n      \"contractRole\": \"RPA\",\n      \"contractID\": \"ISS-StableCoin-Liability\",\n      \"cycleAnchorDateOfInterestPayment\": \"2026-04-14T00:00:00\",\n      \"cycleOfInterestPayment\": \"P1ML0\",\n      \"nominalInterestRate\": 0.0,\n      \"dayCountConvention\": \"30E360\",\n      \"currency\": \"USD\",\n      \"contractDealDate\": \"2026-02-28T00:00:00\",\n      \"initialExchangeDate\": \"2026-03-01T00:00:00\",\n      \"maturityDate\": \"2026-04-14T00:00:00\",\n      \"notionalPrincipal\": 100000,\n      \"premiumDiscountAtIED\": 0,\n      \"stablecoinModels\": [\n        \"br_iss_01\",\n        \"cp_iss_01\",\n        \"aq_iss_01\",\n        \"ml_iss_01\",\n        \"cd_iss_01\",\n        \"ca_iss_01\"\n      ]\n    }\n  ],\n  \"scenarioDescriptor\": {\n    \"scenarioID\": \"sc_iss_ht_daily_01\",\n    \"scenarioType\": \"scenario\"\n  },\n  \"simulateTo\": \"2026-04-14T00:00:00\",\n  \"monitoringTimes\": []\n}",
+  "Response Headers": {
+    "vary": [
+      "Origin",
+      "Access-Control-Request-Method",
+      "Access-Control-Request-Headers"
+    ],
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "date": "Fri, 27 Mar 2026 17:00:28 GMT",
+    "keep-alive": "timeout=60",
+    "connection": "keep-alive"
+  },
+  "Response Body": "The console only shows response bodies smaller than 10 KB inline. To view the complete body, inspect it by clicking Open."
+}
+'══════════════════════════════════════════════════════════════════════'
+'ISSUER PERSPECTIVE fix2: 6 MODELS x 31 DAYS — DERIVED INDEXES'
+'  10 indexes DERIVED from ACTUS T-bill events (not hardcoded)'
+'  Models: BackingRatio + ComplianceDrift + AssetQuality'
+'        + MaturityLadder + ConcentrationDrift + ContinuousAttestation'
+'══════════════════════════════════════════════════════════════════════'
+'Contracts: 6'
+''
+'━ ISS-CashReserve-001 (Success)'
+'  IP: 1'
+'  MD: 1'
+''
+'━ ISS-TBill-4W-001 (Success)'
+'  IP: 1'
+'  MD: 1'
+''
+'━ ISS-TBill-8W-001 (Success)'
+'  IP: 1'
+'  MD: 1'
+''
+'━ ISS-TBill-13W-001 (Success)'
+''
+'━ ISS-TBill-26W-001 (Success)'
+''
+'━ ISS-StableCoin-Liability (Success)'
+'  PP: 270'
+'  IED: 1'
+'  IP: 1'
+'  MD: 1'
+'  PP detail (first 12):'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-01T00:00 payoff=$0.00 nom=$0.00'
+'    2026-03-02T00:00 payoff=$15000.00 nom=$85000.00'
+'    2026-03-02T00:00 payoff=$0.00 nom=$85000.00'
+'    2026-03-02T00:00 payoff=$510.00 nom=$84490.00'
+'    2026-03-02T00:00 payoff=$0.00 nom=$84490.00'
+'    2026-03-02T00:00 payoff=$7266.14 nom=$77223.86'
+'    2026-03-02T00:00 payoff=$4865.10 nom=$72358.76'
+'    ... and 258 more PP events'
+'══════════════════════════════════════════════════════════════════════'
+'✅ ISS Liability PP events: 270'

@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge"
 // import { ModeDefiConfig } from "./mode-defi-config"
 // import { BufferDashboardShell } from "./defi-newdashboard1"
 import { ConfigSimulationMode } from "./mode-config"
-import { VleiPanel } from "./vlei-panel"
+// import { VleiPanel } from "./vlei-panel"  // In Progress — temporarily disabled
 import type { DashboardMode, HealthStatus } from "@/lib/types"
 import { checkHealth } from "@/lib/api"
 import { cn } from "@/lib/utils"
@@ -50,7 +50,7 @@ const modeDescriptions: Record<DashboardMode, string> = {
   holder:
     "Holder simulation — configure portfolio & risk thresholds, simulate 45-day USD ↔ USDC allocation strategy",
   vlei:
-    "vLEI Credential Signing — Jupiter Seller Agent self-attested invoice credential with digital signature via KERIA",
+    "vLEI Credential Signing — Stablecoin Issuer self-attested reserve attestation credential with digital signature via KERIA",
 }
 
 export function DashboardShell() {
@@ -277,7 +277,19 @@ export function DashboardShell() {
                 exit={{ opacity: 0, x: 12 }}
                 transition={{ duration: 0.25 }}
               >
-                <VleiPanel />
+                <div className="flex flex-col items-center justify-center py-24 text-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 mb-4">
+                    <KeyRound className="h-8 w-8 text-emerald-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-700">vLEI Credential Signing</h3>
+                  <p className="mt-2 text-sm text-slate-500 max-w-md">
+                    Stablecoin Issuer self-attested reserve attestation credential with digital signature via KERIA.
+                    This feature will enable cryptographic proof of reserve compliance using vLEI verifiable credentials.
+                  </p>
+                  <span className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                    In Progress — Building
+                  </span>
+                </div>
               </motion.div>
             )}
           </TabsContent>
